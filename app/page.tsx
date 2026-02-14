@@ -40,8 +40,12 @@ export default async function Home({
           s3Link: "Read stories",
           timelineTitle: "Timeline",
           timelineText: "Pick your current stage and jump into concrete tasks.",
+          timelineMeta: "Actionable path",
+          timelineCta: "Open step",
           resourcesTitle: "Resources",
           resourcesText: "Each template includes context and usage tips.",
+          resourcesMeta: "Template library",
+          resourcesCta: "Use template",
           postsTitle: "Latest Posts",
           postsAll: "View all",
           postsText: `Recently updated ${posts.length} posts.`,
@@ -83,8 +87,12 @@ export default async function Home({
           s3Link: "读文章",
           timelineTitle: "准备流程",
           timelineText: "先选一个你现在所处的阶段，直接进入本周可执行任务。",
+          timelineMeta: "可执行路径",
+          timelineCta: "进入该步骤",
           resourcesTitle: "模板资源",
           resourcesText: "每个模板都配了用途说明和使用要点，减少“知道但不会用”。",
+          resourcesMeta: "模板资料库",
+          resourcesCta: "使用模板",
           postsTitle: "最新文章",
           postsAll: "查看全部",
           postsText: `最近更新 ${posts.length} 篇，先从最靠近你当下阶段的主题读起。`,
@@ -196,14 +204,30 @@ export default async function Home({
           <h3 className="text-2xl font-semibold">{t.timelineTitle}</h3>
           <p className="mt-2 text-sm muted">{t.timelineText}</p>
 
-          <ol className="mt-6 grid gap-3 md:grid-cols-2">
+          <ol className="mt-6 grid gap-4 md:grid-cols-2">
             {timelineSteps.map((step, index) => (
               <li key={step.slug}>
                 <Link
                   href={withLang(`/timeline/${step.slug}`, lang)}
-                  className="paper block rounded-2xl p-4 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
+                  className="paper group block rounded-2xl p-5 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
                 >
-                  {`Step ${index + 1}: ${step.title[lang]} (${step.subtitle[lang]})`}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--paper)] text-xs font-semibold text-[var(--accent)]">
+                        {index + 1}
+                      </div>
+                      <div className="text-xs uppercase tracking-wider muted">
+                        {t.timelineMeta}
+                      </div>
+                    </div>
+                    <div className="text-xs muted transition group-hover:text-[var(--accent)]">
+                      {t.timelineCta} →
+                    </div>
+                  </div>
+                  <div className="mt-3 text-lg font-semibold leading-snug">
+                    {step.title[lang]}
+                  </div>
+                  <div className="mt-1 text-sm muted">{step.subtitle[lang]}</div>
                 </Link>
               </li>
             ))}
@@ -214,15 +238,29 @@ export default async function Home({
           <h3 className="text-2xl font-semibold">{t.resourcesTitle}</h3>
           <p className="mt-2 text-sm muted">{t.resourcesText}</p>
 
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
             {resourceItems.map((item) => (
               <Link
                 key={item.slug}
                 href={withLang(`/resources/${item.slug}`, lang)}
-                className="paper rounded-2xl p-4 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
+                className="paper group rounded-2xl p-5 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
               >
-                <div className="font-medium">{item.title[lang]}</div>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="text-xs uppercase tracking-wider muted">
+                    {t.resourcesMeta}
+                  </div>
+                  <div className="rounded-full border border-[var(--line)] px-2 py-0.5 text-[10px] font-semibold muted">
+                    PDF / DOC
+                  </div>
+                </div>
+                <div className="mt-3 font-semibold">{item.title[lang]}</div>
                 <div className="mt-1 text-xs muted">{item.subtitle[lang]}</div>
+                <div className="mt-3 rounded-lg border border-[var(--line)] bg-white/70 px-3 py-2 text-xs muted">
+                  {item.highlights[lang][0]}
+                </div>
+                <div className="mt-3 text-xs font-medium transition group-hover:text-[var(--accent)]">
+                  {t.resourcesCta} →
+                </div>
               </Link>
             ))}
           </div>
