@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { timelineSteps } from "@/lib/timeline-steps";
+import { notFound } from "next/navigation";
+import { resourceItems } from "@/lib/resources";
 
-export default async function TimelineDetailPage({
+export default async function ResourceDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const step = timelineSteps.find((item) => item.slug === slug);
+  const resource = resourceItems.find((item) => item.slug === slug);
 
-  if (!step) return notFound();
+  if (!resource) return notFound();
 
   return (
     <main className="min-h-screen text-[var(--foreground)]">
@@ -20,14 +20,14 @@ export default async function TimelineDetailPage({
             ← 返回首页
           </Link>
 
-          <h1 className="mt-6 text-4xl font-semibold">{step.title}</h1>
-          <p className="mt-2 muted">{step.subtitle}</p>
+          <h1 className="mt-6 text-4xl font-semibold">{resource.title}</h1>
+          <p className="mt-2 muted">{resource.subtitle}</p>
 
           <div className="mt-8 rounded-2xl border border-[var(--line)] bg-white/70 p-6">
-            <h2 className="text-lg font-semibold">你可以先完成这几件事：</h2>
+            <h2 className="text-lg font-semibold">建议你这样使用这个模板：</h2>
             <ul className="mt-4 list-disc space-y-2 pl-5">
-              {step.items.map((it) => (
-                <li key={it}>{it}</li>
+              {resource.highlights.map((item) => (
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
