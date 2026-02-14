@@ -30,8 +30,7 @@ export default async function Home({
           heroSubtitle: "Turn study abroad prep into a steady rhythm",
           heroText:
             "This is not an information dump. It turns a complex process into small daily actions through timelines, templates, and real stories.",
-          cta1: "Start with timeline",
-          cta2: "Read latest posts",
+          heroHint: "Use the section cards below to jump into your current stage.",
           s1Title: "Preparation Flow",
           s1Text: "Break the process into phases to avoid overwhelm and keep momentum.",
           s1Link: "Open timeline",
@@ -79,8 +78,7 @@ export default async function Home({
           heroSubtitle: "把留学准备过成有节奏的日常",
           heroText:
             "这里不是“信息堆叠”，而是把复杂流程拆成每天能完成的一小步。你可以从流程、模板和真实经历三个入口开始，慢慢把不确定感变成可执行的清单。",
-          cta1: "从流程开始",
-          cta2: "看最新文章",
+          heroHint: "从下方功能卡片进入你当前最需要的部分。",
           s1Title: "准备流程",
           s1Text: "把申请拆成阶段任务，避免“一次做太多”导致焦虑和中断。",
           s1Link: "打开时间线",
@@ -217,21 +215,7 @@ export default async function Home({
             <span className="block text-3xl text-[var(--accent)] md:text-5xl">{t.heroSubtitle}</span>
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-[var(--muted)]">{t.heroText}</p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#timeline"
-              className="rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-white transition hover:brightness-95"
-            >
-              {t.cta1}
-            </a>
-            <a
-              href="#posts"
-              className="rounded-full border border-[var(--line)] bg-[var(--paper)] px-5 py-2.5 text-sm font-medium text-[var(--foreground)] transition hover:bg-[var(--accent-soft)]"
-            >
-              {t.cta2}
-            </a>
-          </div>
+          <p className="mt-6 text-sm muted">{t.heroHint}</p>
         </section>
 
         <section className="mt-8 grid gap-4 md:grid-cols-3" data-reveal>
