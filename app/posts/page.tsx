@@ -1,17 +1,8 @@
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
+import { getPostSlugs } from "@/lib/content-posts";
 
 export default async function Home() {
-  // 读取 content/posts 文件夹
-  const dir = path.join(process.cwd(), "content", "posts");
-  const files = await fs.readdir(dir);
-
-  // 生成 slug 列表
-  const posts = files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => file.replace(/\.mdx$/, ""))
-    .sort();
+  const posts = await getPostSlugs();
 
   return (
     <main className="min-h-screen bg-white text-neutral-900">

@@ -1,16 +1,8 @@
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
+import { getPostSlugs } from "@/lib/content-posts";
 
 export default async function Home() {
-  // Read all mdx slugs from content/posts
-  const dir = path.join(process.cwd(), "content", "posts");
-  const files = await fs.readdir(dir);
-
-  const posts: string[] = files
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""))
-    .sort();
+  const posts = await getPostSlugs();
 
   // Show only the latest 3 posts on homepage
   const latestPosts: string[] = posts.slice(0, 3);
