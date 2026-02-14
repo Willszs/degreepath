@@ -3,6 +3,7 @@ import { getPostSlugs } from "@/lib/content-posts";
 import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
 import { resourceItems } from "@/lib/resources";
 import { timelineSteps } from "@/lib/timeline-steps";
+import HomeMotion from "@/app/components/home-motion";
 
 export default async function Home({
   searchParams,
@@ -24,6 +25,8 @@ export default async function Home({
           navContact: "Contact",
           switchLabel: "中文",
           heroTag: "EN / CN · Germany-focused",
+          heroLiveLabel: "Live Focus",
+          heroLiveWords: ["Timeline", "Templates", "Stories", "Checklist"],
           heroSubtitle: "Turn study abroad prep into a steady rhythm",
           heroText:
             "This is not an information dump. It turns a complex process into small daily actions through timelines, templates, and real stories.",
@@ -71,6 +74,8 @@ export default async function Home({
           navContact: "联系",
           switchLabel: "EN",
           heroTag: "CN / EN · Germany-focused",
+          heroLiveLabel: "当前焦点",
+          heroLiveWords: ["流程", "模板", "经验", "清单"],
           heroSubtitle: "把留学准备过成有节奏的日常",
           heroText:
             "这里不是“信息堆叠”，而是把复杂流程拆成每天能完成的一小步。你可以从流程、模板和真实经历三个入口开始，慢慢把不确定感变成可执行的清单。",
@@ -113,27 +118,70 @@ export default async function Home({
 
   return (
     <main className="min-h-screen text-[var(--foreground)]">
+      <HomeMotion />
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-14">
-        <header className="paper rounded-3xl px-6 py-5 md:px-8">
+        <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+          <div className="scroll-tint" />
+          <div className="floating-blob blob-a" />
+          <div className="floating-blob blob-b" />
+          <div className="floating-blob blob-c" />
+          <div className="orbit-ring orbit-1">
+            <span className="orbit-dot orbit-dot-main" />
+            <span className="orbit-dot orbit-dot-secondary" />
+            <span className="orbit-dot orbit-dot-mini" />
+          </div>
+          <div className="orbit-ring orbit-2">
+            <span className="orbit-dot orbit-dot-main" />
+            <span className="orbit-dot orbit-dot-secondary" />
+            <span className="orbit-dot orbit-dot-mini" />
+          </div>
+          <div className="pulse-core" />
+        </div>
+        <header className="paper sticky top-4 z-40 rounded-3xl px-6 py-5 backdrop-blur-md md:px-8">
           <div className="flex items-center justify-between">
             <div className="text-xl font-semibold tracking-tight">
               Degree<span className="accent">Path</span>
             </div>
             <div className="flex items-center gap-5">
               <nav className="hidden gap-6 text-sm muted md:flex">
-                <a className="hover:text-[var(--accent)]" href="#timeline">
+                <a
+                  className="nav-orbit-link hover:text-[var(--accent)] data-[active=true]:text-[var(--accent)]"
+                  href="#timeline"
+                  data-nav-link
+                  data-target="timeline"
+                >
                   {t.navTimeline}
                 </a>
-                <a className="hover:text-[var(--accent)]" href="#resources">
+                <a
+                  className="nav-orbit-link hover:text-[var(--accent)] data-[active=true]:text-[var(--accent)]"
+                  href="#resources"
+                  data-nav-link
+                  data-target="resources"
+                >
                   {t.navResources}
                 </a>
-                <a className="hover:text-[var(--accent)]" href="#posts">
+                <a
+                  className="nav-orbit-link hover:text-[var(--accent)] data-[active=true]:text-[var(--accent)]"
+                  href="#posts"
+                  data-nav-link
+                  data-target="posts"
+                >
                   {t.navPosts}
                 </a>
-                <a className="hover:text-[var(--accent)]" href="#about">
+                <a
+                  className="nav-orbit-link hover:text-[var(--accent)] data-[active=true]:text-[var(--accent)]"
+                  href="#about"
+                  data-nav-link
+                  data-target="about"
+                >
                   {t.navAbout}
                 </a>
-                <a className="hover:text-[var(--accent)]" href="#contact">
+                <a
+                  className="nav-orbit-link hover:text-[var(--accent)] data-[active=true]:text-[var(--accent)]"
+                  href="#contact"
+                  data-nav-link
+                  data-target="contact"
+                >
                   {t.navContact}
                 </a>
               </nav>
@@ -147,8 +195,23 @@ export default async function Home({
           </div>
         </header>
 
-        <section className="mt-8 rounded-3xl border border-[var(--line)] bg-[linear-gradient(135deg,#fff7ef_0%,#f8ebdc_100%)] px-6 py-10 md:px-10 md:py-12">
-          <p className="text-sm font-medium text-[var(--muted)]">{t.heroTag}</p>
+        <section
+          className="mt-8 rounded-3xl border border-[var(--line)] bg-[linear-gradient(135deg,#fff7ef_0%,#f8ebdc_100%)] px-6 py-10 md:px-10 md:py-12"
+          data-reveal
+        >
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-sm font-medium text-[var(--muted)]">{t.heroTag}</p>
+            <div className="hero-cycle rounded-full border border-[var(--line)] bg-white/70 px-3 py-1 text-xs">
+              <span className="muted">{t.heroLiveLabel}:</span>{" "}
+              <span className="cycle-window">
+                <span className="cycle-track">
+                  {t.heroLiveWords.map((word) => (
+                    <span key={word}>{word}</span>
+                  ))}
+                </span>
+              </span>
+            </div>
+          </div>
           <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
             DegreePath
             <span className="block text-3xl text-[var(--accent)] md:text-5xl">{t.heroSubtitle}</span>
@@ -171,7 +234,7 @@ export default async function Home({
           </div>
         </section>
 
-        <section className="mt-8 grid gap-4 md:grid-cols-3">
+        <section className="mt-8 grid gap-4 md:grid-cols-3" data-reveal>
           <div className="paper rounded-2xl p-6">
             <div className="text-sm muted">Timeline</div>
             <h2 className="mt-2 text-xl font-semibold">{t.s1Title}</h2>
@@ -200,16 +263,17 @@ export default async function Home({
           </div>
         </section>
 
-        <section id="timeline" className="mt-16">
+        <section id="timeline" className="mt-16" data-reveal>
           <h3 className="text-2xl font-semibold">{t.timelineTitle}</h3>
           <p className="mt-2 text-sm muted">{t.timelineText}</p>
 
           <ol className="mt-6 grid gap-4 md:grid-cols-2">
             {timelineSteps.map((step, index) => (
-              <li key={step.slug}>
+              <li key={step.slug} data-reveal-item>
                 <Link
                   href={withLang(`/timeline/${step.slug}`, lang)}
                   className="paper group block rounded-2xl p-5 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
+                  data-tilt
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -234,7 +298,7 @@ export default async function Home({
           </ol>
         </section>
 
-        <section id="resources" className="mt-16">
+        <section id="resources" className="mt-16" data-reveal>
           <h3 className="text-2xl font-semibold">{t.resourcesTitle}</h3>
           <p className="mt-2 text-sm muted">{t.resourcesText}</p>
 
@@ -243,7 +307,9 @@ export default async function Home({
               <Link
                 key={item.slug}
                 href={withLang(`/resources/${item.slug}`, lang)}
+                data-reveal-item
                 className="paper group rounded-2xl p-5 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
+                data-tilt
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="text-xs uppercase tracking-wider muted">
@@ -266,7 +332,7 @@ export default async function Home({
           </div>
         </section>
 
-        <section id="posts" className="mt-16">
+        <section id="posts" className="mt-16" data-reveal>
           <div className="flex items-end justify-between gap-4">
             <h3 className="text-2xl font-semibold">{t.postsTitle}</h3>
             <Link href={withLang("/posts", lang)} className="text-sm muted hover:text-[var(--accent)]">
@@ -282,6 +348,7 @@ export default async function Home({
                 key={slug}
                 href={withLang(`/posts/${slug}`, lang)}
                 className="paper block rounded-2xl p-5 transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
+                data-tilt
               >
                 <div className="text-xs muted">Post</div>
                 <div className="mt-1 text-lg font-semibold">{slug.replace(/-/g, " ")}</div>
@@ -291,12 +358,12 @@ export default async function Home({
           </div>
         </section>
 
-        <section id="about" className="mt-16">
+        <section id="about" className="mt-16" data-reveal>
           <h3 className="text-2xl font-semibold">{t.aboutTitle}</h3>
           <p className="mt-4 max-w-3xl text-sm muted">{t.aboutText}</p>
         </section>
 
-        <section id="contact" className="mt-16">
+        <section id="contact" className="mt-16" data-reveal>
           <h3 className="text-2xl font-semibold">{t.contactTitle}</h3>
           <p className="mt-2 text-sm muted">{t.contactText}</p>
 
