@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6efe5;
+  --foreground: #2f2a24;
+  --paper: #fff9f1;
+  --line: #e5d6bf;
+  --muted: #6b6054;
+  --accent: #b7643c;
+  --accent-soft: #f4dfd0;
 }
 
 @theme inline {
@@ -14,8 +19,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f6efe5;
+    --foreground: #2f2a24;
+    --paper: #fff9f1;
+    --line: #e5d6bf;
+    --muted: #6b6054;
+    --accent: #b7643c;
+    --accent-soft: #f4dfd0;
   }
 }
 
@@ -23,4 +33,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background-image:
+    radial-gradient(circle at 12% 10%, #f9e7d2 0, transparent 32%),
+    radial-gradient(circle at 88% 18%, #efd7c3 0, transparent 28%),
+    linear-gradient(180deg, #f8f2e8 0%, #f6efe5 55%, #f3eadf 100%);
+}
+
+.paper {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 8px 30px rgb(88 63 39 / 8%);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.cozy-prose h1,
+.cozy-prose h2,
+.cozy-prose h3 {
+  color: var(--foreground);
+}
+
+.cozy-prose p,
+.cozy-prose li,
+.cozy-prose blockquote {
+  color: var(--foreground);
 }

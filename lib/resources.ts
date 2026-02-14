@@ -1,45 +1,93 @@
 export type ResourceItem = {
   slug: string;
-  title: string;
-  subtitle: string;
-  highlights: string[];
+  title: { zh: string; en: string };
+  subtitle: { zh: string; en: string };
+  highlights: { zh: string[]; en: string[] };
 };
 
 export const resourceItems: ResourceItem[] = [
   {
     slug: "cv-template",
-    title: "CV 模板",
-    subtitle: "英文/德文简历结构",
-    highlights: ["单页优先", "量化经历", "关键词匹配项目描述", "导出 PDF 统一命名"],
+    title: { zh: "CV 模板", en: "CV Template" },
+    subtitle: { zh: "英文/德文简历结构", en: "English/German Resume Structure" },
+    highlights: {
+      zh: ["单页优先", "量化经历", "关键词匹配项目描述", "导出 PDF 统一命名"],
+      en: [
+        "Prioritize one page",
+        "Quantify achievements",
+        "Match keywords to program description",
+        "Export PDF with consistent naming",
+      ],
+    },
   },
   {
     slug: "motivation-letter-template",
-    title: "动机信模板",
-    subtitle: "结构化写作框架",
-    highlights: ["开头直给目标", "匹配课程与经历", "结尾给出未来计划", "控制在 1 页内"],
+    title: { zh: "动机信模板", en: "Motivation Letter Template" },
+    subtitle: { zh: "结构化写作框架", en: "Structured Writing Framework" },
+    highlights: {
+      zh: ["开头直给目标", "匹配课程与经历", "结尾给出未来计划", "控制在 1 页内"],
+      en: [
+        "State your goal directly in opening",
+        "Match coursework with your experience",
+        "End with a clear future plan",
+        "Keep it within one page",
+      ],
+    },
   },
   {
     slug: "application-email-template",
-    title: "申请邮件模板",
-    subtitle: "教授/招生办沟通",
-    highlights: ["主题行规范", "正文三段式", "附件命名统一", "礼貌跟进节奏"],
+    title: { zh: "申请邮件模板", en: "Application Email Template" },
+    subtitle: { zh: "教授/招生办沟通", en: "Communication with Professors/Admissions" },
+    highlights: {
+      zh: ["主题行规范", "正文三段式", "附件命名统一", "礼貌跟进节奏"],
+      en: [
+        "Clear and standard subject line",
+        "Three-part body structure",
+        "Consistent attachment naming",
+        "Polite follow-up cadence",
+      ],
+    },
   },
   {
     slug: "visa-doc-checklist",
-    title: "签证材料清单",
-    subtitle: "递签前核对表",
-    highlights: ["预约确认材料", "资金证明完整", "翻译与公证版本", "复印件备份"],
+    title: { zh: "签证材料清单", en: "Visa Document Checklist" },
+    subtitle: { zh: "递签前核对表", en: "Pre-submission Checklist" },
+    highlights: {
+      zh: ["预约确认材料", "资金证明完整", "翻译与公证版本", "复印件备份"],
+      en: [
+        "Appointment confirmation documents",
+        "Complete financial proof",
+        "Translated and notarized versions",
+        "Copies and backup set",
+      ],
+    },
   },
   {
     slug: "pre-departure-checklist",
-    title: "行前清单",
-    subtitle: "出发前 30 天准备",
-    highlights: ["住宿确认", "保险生效日期", "随身文件夹", "紧急联系人备份"],
+    title: { zh: "行前清单", en: "Pre-departure Checklist" },
+    subtitle: { zh: "出发前 30 天准备", en: "30-day Preparation Plan" },
+    highlights: {
+      zh: ["住宿确认", "保险生效日期", "随身文件夹", "紧急联系人备份"],
+      en: [
+        "Housing confirmation",
+        "Insurance effective date",
+        "Carry-on document folder",
+        "Emergency contacts backup",
+      ],
+    },
   },
   {
     slug: "germany-life-toolkit",
-    title: "德生活工具箱",
-    subtitle: "落地后常用资源",
-    highlights: ["注册流程入口", "银行/通信方案", "交通票类型", "办事预约平台"],
+    title: { zh: "德生活工具箱", en: "Germany Life Toolkit" },
+    subtitle: { zh: "落地后常用资源", en: "Useful Resources After Arrival" },
+    highlights: {
+      zh: ["注册流程入口", "银行/通信方案", "交通票类型", "办事预约平台"],
+      en: [
+        "Registration process entry points",
+        "Banking and mobile options",
+        "Transport ticket types",
+        "Public office booking platforms",
+      ],
+    },
   },
 ];
