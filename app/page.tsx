@@ -21,6 +21,7 @@ export default async function Home({
           navResources: "Resources",
           navPosts: "Posts",
           navAbout: "About",
+          navContact: "Contact",
           switchLabel: "中文",
           heroTag: "EN / CN · Germany-focused",
           heroSubtitle: "Turn study abroad prep into a steady rhythm",
@@ -48,6 +49,14 @@ export default async function Home({
           aboutTitle: "About DegreePath",
           aboutText:
             "Think of this as an evolving study-abroad handbook. The goal is to turn information into action.",
+          contactTitle: "Contact",
+          contactText: "Reach out for feedback, topic requests, or collaboration.",
+          contactEmailLabel: "Email",
+          contactEmailValue: "hello@degreepath.site",
+          contactReplyLabel: "Response Time",
+          contactReplyValue: "Usually within 48 hours",
+          contactSocialLabel: "Social",
+          contactSocialValue: "xiaohongshu / Instagram: @degreepath",
           footer: "Cozy study-abroad notes",
         }
       : {
@@ -55,6 +64,7 @@ export default async function Home({
           navResources: "资源",
           navPosts: "文章",
           navAbout: "关于",
+          navContact: "联系",
           switchLabel: "EN",
           heroTag: "CN / EN · Germany-focused",
           heroSubtitle: "把留学准备过成有节奏的日常",
@@ -82,6 +92,14 @@ export default async function Home({
           aboutTitle: "关于 DegreePath",
           aboutText:
             "你可以把这里当成一个会持续更新的留学知识手账。内容会覆盖考试、申请、签证和德国生活细节，目标是让信息不只是“看过”，而是能直接变成行动。",
+          contactTitle: "联系我",
+          contactText: "如果你想提建议、反馈问题或合作交流，可以通过下面方式联系。",
+          contactEmailLabel: "邮箱",
+          contactEmailValue: "hello@degreepath.site",
+          contactReplyLabel: "回复时间",
+          contactReplyValue: "通常 48 小时内",
+          contactSocialLabel: "社交平台",
+          contactSocialValue: "小红书 / Instagram: @degreepath",
           footer: "Cozy study-abroad notes",
         };
 
@@ -106,6 +124,9 @@ export default async function Home({
                 </a>
                 <a className="hover:text-[var(--accent)]" href="#about">
                   {t.navAbout}
+                </a>
+                <a className="hover:text-[var(--accent)]" href="#contact">
+                  {t.navContact}
                 </a>
               </nav>
               <Link
@@ -235,6 +256,26 @@ export default async function Home({
         <section id="about" className="mt-16">
           <h3 className="text-2xl font-semibold">{t.aboutTitle}</h3>
           <p className="mt-4 max-w-3xl text-sm muted">{t.aboutText}</p>
+        </section>
+
+        <section id="contact" className="mt-16">
+          <h3 className="text-2xl font-semibold">{t.contactTitle}</h3>
+          <p className="mt-2 text-sm muted">{t.contactText}</p>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="paper rounded-2xl p-6">
+              <div className="text-sm muted">{t.contactEmailLabel}</div>
+              <div className="mt-2 text-base font-medium">{t.contactEmailValue}</div>
+            </div>
+            <div className="paper rounded-2xl p-6">
+              <div className="text-sm muted">{t.contactReplyLabel}</div>
+              <div className="mt-2 text-base font-medium">{t.contactReplyValue}</div>
+            </div>
+            <div className="paper rounded-2xl p-6">
+              <div className="text-sm muted">{t.contactSocialLabel}</div>
+              <div className="mt-2 text-base font-medium">{t.contactSocialValue}</div>
+            </div>
+          </div>
         </section>
 
         <footer className="mt-16 border-t border-[var(--line)] py-8 text-sm muted">
