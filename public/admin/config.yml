@@ -3,7 +3,7 @@ backend:
   repo: Willszs/degreepath
   branch: main
   base_url: https://degreepath.vercel.app
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
 
 local_backend: true
 
