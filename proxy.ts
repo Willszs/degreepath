@@ -19,6 +19,20 @@ function getPathLang(pathname: string): Lang | null {
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
+  if (pathname === "/admin" || pathname === "/admin/") {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/admin/index.html";
+    return NextResponse.redirect(redirectUrl, 308);
+  }
+
+  if (pathname.startsWith("/admin/")) {
+    return NextResponse.next();
+  }
+
   const pathLang = getPathLang(request.nextUrl.pathname);
   const queryLang = normalizeLang(request.nextUrl.searchParams.get("lang"));
   const cookieLang = normalizeLang(request.cookies.get("degreepath-lang")?.value);

@@ -1,0 +1,88 @@
+{
+  "steps": [
+    {
+      "slug": "step-1",
+      "title": { "zh": "定位与选校", "en": "Positioning and School Selection" },
+      "subtitle": { "zh": "目标 / 预算 / 专业", "en": "Goal / Budget / Program" },
+      "items": {
+        "zh": ["目标国家与城市", "预算与生活成本", "专业方向与课程匹配", "院校清单与优先级"],
+        "en": [
+          "Target country and city",
+          "Budget and living costs",
+          "Program direction and course fit",
+          "School shortlist and priorities"
+        ]
+      }
+    },
+    {
+      "slug": "step-2",
+      "title": { "zh": "语言与考试", "en": "Language and Exams" },
+      "subtitle": { "zh": "IELTS / TestDaF 等", "en": "IELTS / TestDaF, etc." },
+      "items": {
+        "zh": ["目标分数与截止时间", "备考计划", "报名与考位", "出分与复议策略"],
+        "en": [
+          "Target score and deadline",
+          "Study plan",
+          "Registration and seat booking",
+          "Score release and remark strategy"
+        ]
+      }
+    },
+    {
+      "slug": "step-3",
+      "title": { "zh": "材料准备", "en": "Application Materials" },
+      "subtitle": { "zh": "CV / 动机信 / 推荐信", "en": "CV / Motivation Letter / References" },
+      "items": {
+        "zh": ["CV（英文/德文）", "动机信结构", "推荐人沟通", "材料版本管理"],
+        "en": [
+          "CV (English/German)",
+          "Motivation letter structure",
+          "Recommender communication",
+          "Version control for materials"
+        ]
+      }
+    },
+    {
+      "slug": "step-4",
+      "title": { "zh": "申请提交与跟进", "en": "Submission and Follow-up" },
+      "subtitle": { "zh": "邮件 / 系统", "en": "Email / Portals" },
+      "items": {
+        "zh": ["申请系统清单", "邮件模板", "时间节点追踪", "补件与面试准备"],
+        "en": [
+          "Application portal checklist",
+          "Email templates",
+          "Timeline tracking",
+          "Additional docs and interview prep"
+        ]
+      }
+    },
+    {
+      "slug": "step-5",
+      "title": { "zh": "签证与资金证明", "en": "Visa and Financial Proof" },
+      "subtitle": { "zh": "清单化", "en": "Checklist-based" },
+      "items": {
+        "zh": ["材料总清单", "资金证明/冻结", "预约与递签流程", "常见坑与补充材料"],
+        "en": [
+          "Master document checklist",
+          "Financial proof / blocked account",
+          "Appointment and submission flow",
+          "Common pitfalls and extra documents"
+        ]
+      }
+    },
+    {
+      "slug": "step-6",
+      "title": { "zh": "行前与落地", "en": "Pre-departure and Arrival" },
+      "subtitle": { "zh": "住宿 / 保险 / 开户", "en": "Housing / Insurance / Banking" },
+      "items": {
+        "zh": ["住宿与 Anmeldung", "保险选择", "开户与手机卡", "落地一周生存清单"],
+        "en": [
+          "Housing and Anmeldung",
+          "Insurance choice",
+          "Bank account and SIM card",
+          "First-week arrival checklist"
+        ]
+      }
+    }
+  ]
+}

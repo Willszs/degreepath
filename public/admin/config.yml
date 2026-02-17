@@ -1,0 +1,109 @@
+backend:
+  name: github
+  repo: Willszs/degreepath
+  branch: main
+  base_url: https://degreepath.vercel.app
+  auth_endpoint: api/auth
+
+local_backend: true
+
+publish_mode: editorial_workflow
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Posts
+    folder: content/posts
+    create: true
+    extension: mdx
+    format: frontmatter
+    slug: '{{slug}}'
+    preview_path: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text }
+      - { label: Date, name: date, widget: datetime, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false }
+      - label: Tag
+        name: tag
+        widget: select
+        options: [Exam, Application, Life]
+      - { label: Body, name: body, widget: markdown }
+
+  - name: timeline
+    label: Timeline
+    files:
+      - label: Timeline Steps
+        name: timeline_steps
+        file: content/timeline-steps.json
+        format: json
+        fields:
+          - label: Steps
+            name: steps
+            widget: list
+            summary: '{{fields.slug}}'
+            fields:
+              - { label: Slug, name: slug, widget: string }
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - { label: Chinese, name: zh, widget: string }
+                  - { label: English, name: en, widget: string }
+              - label: Subtitle
+                name: subtitle
+                widget: object
+                fields:
+                  - { label: Chinese, name: zh, widget: string }
+                  - { label: English, name: en, widget: string }
+              - label: Items
+                name: items
+                widget: object
+                fields:
+                  - label: Chinese Items
+                    name: zh
+                    widget: list
+                    field: { label: Item, name: item, widget: string }
+                  - label: English Items
+                    name: en
+                    widget: list
+                    field: { label: Item, name: item, widget: string }
+
+  - name: resources
+    label: Resources
+    files:
+      - label: Resource Items
+        name: resource_items
+        file: content/resources.json
+        format: json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            summary: '{{fields.slug}}'
+            fields:
+              - { label: Slug, name: slug, widget: string }
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - { label: Chinese, name: zh, widget: string }
+                  - { label: English, name: en, widget: string }
+              - label: Subtitle
+                name: subtitle
+                widget: object
+                fields:
+                  - { label: Chinese, name: zh, widget: string }
+                  - { label: English, name: en, widget: string }
+              - label: Highlights
+                name: highlights
+                widget: object
+                fields:
+                  - label: Chinese Highlights
+                    name: zh
+                    widget: list
+                    field: { label: Highlight, name: highlight, widget: string }
+                  - label: English Highlights
+                    name: en
+                    widget: list
+                    field: { label: Highlight, name: highlight, widget: string }
