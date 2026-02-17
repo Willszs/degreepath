@@ -1,17 +1,41 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
+import type { Metadata } from "next";
+import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
 import { resourceItems } from "@/lib/resources";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
+  const { lang: rawLang, slug } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return {};
+  const resource = resourceItems.find((item) => item.slug === slug);
+  if (!resource) return {};
+
+  return {
+    title: `${resource.title[lang]} | DegreePath`,
+    description: resource.subtitle[lang],
+    alternates: {
+      canonical: withLang(`/resources/${slug}`, lang),
+      languages: {
+        "zh-CN": withLang(`/resources/${slug}`, "zh"),
+        "en-US": withLang(`/resources/${slug}`, "en"),
+      },
+    },
+  };
+}
 
 export default async function ResourceDetailPage({
   params,
-  searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<SearchParams>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const lang = resolveLang(await searchParams);
+  const { slug, lang: rawLang } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return notFound();
   const nextLang = otherLang(lang);
   const resource = resourceItems.find((item) => item.slug === slug);
 

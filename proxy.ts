@@ -12,11 +12,27 @@ function detectLangFromAcceptLanguage(raw: string | null): Lang {
   return raw.toLowerCase().includes("en") ? "en" : "zh";
 }
 
+function getPathLang(pathname: string): Lang | null {
+  const first = pathname.split("/").filter(Boolean)[0];
+  return normalizeLang(first);
+}
+
 export function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  const pathLang = getPathLang(request.nextUrl.pathname);
   const queryLang = normalizeLang(request.nextUrl.searchParams.get("lang"));
   const cookieLang = normalizeLang(request.cookies.get("degreepath-lang")?.value);
   const fallbackLang = detectLangFromAcceptLanguage(request.headers.get("accept-language"));
-  const lang = queryLang ?? cookieLang ?? fallbackLang;
+  const lang = pathLang ?? queryLang ?? cookieLang ?? fallbackLang;
+
+  if (!pathLang) {
+    const redirectUrl = request.nextUrl.clone();
+    const normalizedPath = pathname === "/" ? "" : pathname;
+    const redirectLang = queryLang ?? lang;
+    redirectUrl.pathname = `/${redirectLang}${normalizedPath}`;
+    redirectUrl.searchParams.delete("lang");
+    return NextResponse.redirect(redirectUrl, 308);
+  }
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-degreepath-lang", lang);

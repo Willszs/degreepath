@@ -1,18 +1,51 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
+import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
 import { getPostBySlug } from "@/lib/content-posts";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
+  const { lang: rawLang, slug } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return {};
+
+  const post = await getPostBySlug(slug);
+  if (!post) return {};
+
+  return {
+    title: `${post.title} | DegreePath`,
+    description: post.excerpt || (lang === "en" ? "Study abroad story and practical notes." : "留学经验与可执行建议。"),
+    alternates: {
+      canonical: withLang(`/posts/${slug}`, lang),
+      languages: {
+        "zh-CN": withLang(`/posts/${slug}`, "zh"),
+        "en-US": withLang(`/posts/${slug}`, "en"),
+      },
+    },
+    openGraph: {
+      title: `${post.title} | DegreePath`,
+      description: post.excerpt || "",
+      url: withLang(`/posts/${slug}`, lang),
+      siteName: "DegreePath",
+      locale: lang === "en" ? "en_US" : "zh_CN",
+      type: "article",
+    },
+  };
+}
 
 export default async function PostPage({
   params,
-  searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<SearchParams>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const lang = resolveLang(await searchParams);
+  const { slug, lang: rawLang } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return notFound();
   const nextLang = otherLang(lang);
   const post = await getPostBySlug(slug);
   if (!post) return notFound();

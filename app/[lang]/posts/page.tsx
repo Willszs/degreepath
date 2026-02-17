@@ -1,14 +1,46 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getPostSummaries } from "@/lib/content-posts";
-import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
+import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang: rawLang } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return {};
+
+  const title = lang === "en" ? "All Posts | DegreePath" : "全部文章 | DegreePath";
+  const description =
+    lang === "en"
+      ? "Read practical study-abroad posts by your current stage."
+      : "按你当前阶段阅读实用留学经验文章。";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: withLang("/posts", lang),
+      languages: {
+        "zh-CN": withLang("/posts", "zh"),
+        "en-US": withLang("/posts", "en"),
+      },
+    },
+  };
+}
 
 export default async function PostsPage({
-  searchParams,
+  params,
 }: {
-  searchParams: Promise<SearchParams>;
+  params: Promise<{ lang: string }>;
 }) {
   const posts = await getPostSummaries();
-  const lang = resolveLang(await searchParams);
+  const { lang: rawLang } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return notFound();
   const nextLang = otherLang(lang);
 
   const t =

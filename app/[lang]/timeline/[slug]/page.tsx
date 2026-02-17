@@ -1,17 +1,41 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
+import type { Metadata } from "next";
+import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
 import { timelineSteps } from "@/lib/timeline-steps";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
+  const { lang: rawLang, slug } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return {};
+  const step = timelineSteps.find((item) => item.slug === slug);
+  if (!step) return {};
+
+  return {
+    title: `${step.title[lang]} | DegreePath`,
+    description: step.subtitle[lang],
+    alternates: {
+      canonical: withLang(`/timeline/${slug}`, lang),
+      languages: {
+        "zh-CN": withLang(`/timeline/${slug}`, "zh"),
+        "en-US": withLang(`/timeline/${slug}`, "en"),
+      },
+    },
+  };
+}
 
 export default async function TimelineDetailPage({
   params,
-  searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<SearchParams>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const lang = resolveLang(await searchParams);
+  const { slug, lang: rawLang } = await params;
+  const lang = resolveLangParam(rawLang);
+  if (!lang) return notFound();
   const nextLang = otherLang(lang);
   const step = timelineSteps.find((item) => item.slug === slug);
 
