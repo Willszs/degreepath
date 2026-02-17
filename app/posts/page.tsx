@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPostSlugs } from "@/lib/content-posts";
+import { getPostSummaries } from "@/lib/content-posts";
 import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
 
 export default async function PostsPage({
@@ -7,7 +7,7 @@ export default async function PostsPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const posts = await getPostSlugs();
+  const posts = await getPostSummaries();
   const lang = resolveLang(await searchParams);
   const nextLang = otherLang(lang);
 
@@ -50,13 +50,15 @@ export default async function PostsPage({
           <p className="mt-6 text-sm muted">Found: {posts.length} posts</p>
 
           <div className="mt-6 grid gap-4">
-            {posts.map((slug) => (
+            {posts.map((post) => (
               <Link
-                key={slug}
-                href={withLang(`/posts/${slug}`, lang)}
+                key={post.slug}
+                href={withLang(`/posts/${post.slug}`, lang)}
                 className="rounded-2xl border border-[var(--line)] bg-white/75 p-5 transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
               >
-                <div className="text-lg font-semibold">{slug.replace(/-/g, " ")}</div>
+                <div className="text-xs muted">{post.date}</div>
+                <div className="mt-1 text-lg font-semibold">{post.title}</div>
+                {post.excerpt ? <div className="mt-2 text-sm muted">{post.excerpt}</div> : null}
                 <div className="mt-2 text-sm muted">{t.read} →</div>
               </Link>
             ))}

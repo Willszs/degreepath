@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
+import { getPostBySlug } from "@/lib/content-posts";
 
 export default async function PostPage({
   params,
@@ -15,18 +14,11 @@ export default async function PostPage({
   const { slug } = await params;
   const lang = resolveLang(await searchParams);
   const nextLang = otherLang(lang);
-
-  const filePath = path.join(process.cwd(), "content", "posts", `${slug}.mdx`);
-
-  let source: string;
-  try {
-    source = await fs.readFile(filePath, "utf8");
-  } catch {
-    return notFound();
-  }
+  const post = await getPostBySlug(slug);
+  if (!post) return notFound();
 
   const { content } = await compileMDX({
-    source,
+    source: post.source,
     options: { parseFrontmatter: false },
   });
 
@@ -58,7 +50,11 @@ export default async function PostPage({
               {t.switchLabel}
             </Link>
           </div>
-          <p className="not-prose mt-4 text-xs muted">{t.note}</p>
+          <h1 className="not-prose mt-6 text-3xl font-semibold md:text-4xl">{post.title}</h1>
+          <p className="not-prose mt-3 text-xs muted">
+            {post.date} · {post.tag}
+          </p>
+          <p className="not-prose mt-2 text-xs muted">{t.note}</p>
           <div className="prose prose-stone mt-6 max-w-none">{content}</div>
         </article>
       </div>

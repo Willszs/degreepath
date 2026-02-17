@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPostSlugs } from "@/lib/content-posts";
+import { getPostSummaries } from "@/lib/content-posts";
 import { resolveLang, otherLang, withLang, type SearchParams } from "@/lib/i18n";
 import { resourceItems } from "@/lib/resources";
 import { timelineSteps } from "@/lib/timeline-steps";
@@ -10,7 +10,7 @@ export default async function Home({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const posts = await getPostSlugs();
+  const posts = await getPostSummaries();
   const latestPosts = posts.slice(0, 3);
   const lang = resolveLang(await searchParams);
   const nextLang = otherLang(lang);
@@ -327,15 +327,16 @@ export default async function Home({
           <p className="mt-3 text-sm muted">{t.postsText}</p>
 
           <div className="mt-6 grid gap-4">
-            {latestPosts.map((slug) => (
+            {latestPosts.map((post) => (
               <Link
-                key={slug}
-                href={withLang(`/posts/${slug}`, lang)}
+                key={post.slug}
+                href={withLang(`/posts/${post.slug}`, lang)}
                 className="paper block rounded-2xl p-5 transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
                 data-tilt
               >
-                <div className="text-xs muted">Post</div>
-                <div className="mt-1 text-lg font-semibold">{slug.replace(/-/g, " ")}</div>
+                <div className="text-xs muted">{post.date}</div>
+                <div className="mt-1 text-lg font-semibold">{post.title}</div>
+                {post.excerpt ? <div className="mt-2 text-sm muted">{post.excerpt}</div> : null}
                 <div className="mt-2 text-sm muted">{t.postRead} →</div>
               </Link>
             ))}
