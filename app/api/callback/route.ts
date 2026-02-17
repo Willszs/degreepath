@@ -6,13 +6,38 @@ function callbackHtml(message: string): string {
   <body>
     <script>
       (function () {
-        function send() {
-          if (window.opener) {
-            window.opener.postMessage(${JSON.stringify(message)}, "*");
-          }
-          window.close();
+        var finalMessage = ${JSON.stringify(message)};
+
+        function complete(targetOrigin) {
+          if (!window.opener) return;
+          window.opener.postMessage(finalMessage, targetOrigin || "*");
+          setTimeout(function () {
+            window.close();
+          }, 80);
         }
-        send();
+
+        function receiveMessage(event) {
+          complete(event && event.origin ? event.origin : "*");
+        }
+
+        if (window.opener) {
+          window.addEventListener("message", receiveMessage, false);
+          window.opener.postMessage("authorizing:github", "*");
+
+          // Fallback for clients that don't send ack messages.
+          setTimeout(function () {
+            complete("*");
+          }, 1200);
+        } else {
+          document.body.textContent = "Authentication window missing opener.";
+        }
+
+        // Safety fallback: if popup blockers prevent close, keep a visible status.
+        setTimeout(function () {
+          if (!document.body.textContent) {
+            document.body.textContent = "Authentication completed. You can close this window.";
+          }
+        }, 1500);
       })();
     </script>
   </body>
@@ -76,7 +101,6 @@ export async function GET(request: NextRequest) {
 
   const successMessage = `authorization:github:success:${JSON.stringify({
     token: tokenPayload.access_token,
-    provider: "github",
   })}`;
 
   const response = new NextResponse(callbackHtml(successMessage), {
