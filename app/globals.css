@@ -111,6 +111,14 @@ section[id] {
   padding-left: 1.2rem;
 }
 
+.fold-markdown ul {
+  list-style-type: disc;
+}
+
+.fold-markdown ol {
+  list-style-type: decimal;
+}
+
 .fold-markdown li {
   margin: 0.25rem 0;
 }
@@ -504,6 +512,14 @@ section[id] {
 .cozy-prose .prose ol {
   margin: 0.8rem 0 1rem;
   padding-left: 1.3rem;
+}
+
+.cozy-prose .prose ul {
+  list-style-type: disc;
+}
+
+.cozy-prose .prose ol {
+  list-style-type: decimal;
 }
 
 .cozy-prose .prose li {
