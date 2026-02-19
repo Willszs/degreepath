@@ -73,14 +73,19 @@ export default async function ResourceDetailPage({
           <h1 className="mt-6 text-4xl font-semibold">{resource.title[lang]}</h1>
           <p className="mt-2 muted">{resource.subtitle[lang]}</p>
 
-          <div className="mt-8 rounded-2xl border border-[var(--line)] bg-white/70 p-6">
-            <h2 className="text-lg font-semibold">{t.title}</h2>
+          <details className="fold-card mt-8 rounded-2xl border border-[var(--line)] bg-white/70 p-6" open>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-lg font-semibold">
+              {t.title}
+              <span aria-hidden="true" className="fold-arrow text-xl leading-none">
+                ▾
+              </span>
+            </summary>
             <ul className="mt-4 list-disc space-y-2 pl-5">
               {resource.highlights[lang].map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-          </div>
+          </details>
         </section>
       </div>
     </main>

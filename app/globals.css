@@ -60,6 +60,20 @@ section[id] {
   box-shadow: 0 8px 30px rgb(88 63 39 / 8%);
 }
 
+.fold-card summary::-webkit-details-marker,
+.fold-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.fold-card .fold-arrow {
+  transition: transform 180ms ease;
+}
+
+.fold-card[open] .fold-arrow,
+.fold-item[open] .fold-arrow {
+  transform: rotate(180deg);
+}
+
 [data-motion="on"] [data-tilt] {
   position: relative;
   transform-style: preserve-3d;

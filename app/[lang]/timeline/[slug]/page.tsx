@@ -75,11 +75,23 @@ export default async function TimelineDetailPage({
 
           <div className="mt-8 rounded-2xl border border-[var(--line)] bg-white/70 p-6">
             <h2 className="text-lg font-semibold">{t.title}</h2>
-            <ul className="mt-4 list-disc space-y-2 pl-5">
+            <div className="mt-4 space-y-3">
               {step.items[lang].map((it) => (
-                <li key={it}>{it}</li>
+                <details key={it} className="fold-item rounded-xl border border-[var(--line)] bg-white/80 px-4 py-3">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-lg font-medium">
+                    {it}
+                    <span aria-hidden="true" className="fold-arrow text-xl leading-none">
+                      ▾
+                    </span>
+                  </summary>
+                  <p className="mt-2 text-sm muted">
+                    {lang === "en"
+                      ? `Start by listing your current status and next action for: ${it}.`
+                      : `先围绕「${it}」整理你当前状态和下一步行动。`}
+                  </p>
+                </details>
               ))}
-            </ul>
+            </div>
           </div>
         </section>
       </div>
