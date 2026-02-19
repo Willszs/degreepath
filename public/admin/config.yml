@@ -63,11 +63,15 @@ collections:
                   - label: Chinese Items
                     name: zh
                     widget: list
-                    field: { label: Item, name: item, widget: string }
+                    fields:
+                      - { label: Title, name: title, widget: string }
+                      - { label: Content, name: content, widget: text }
                   - label: English Items
                     name: en
                     widget: list
-                    field: { label: Item, name: item, widget: string }
+                    fields:
+                      - { label: Title, name: title, widget: string }
+                      - { label: Content, name: content, widget: text }
 
   - name: resources
     label: Resources

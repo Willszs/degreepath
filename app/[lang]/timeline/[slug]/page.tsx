@@ -77,17 +77,18 @@ export default async function TimelineDetailPage({
             <h2 className="text-lg font-semibold">{t.title}</h2>
             <div className="mt-4 space-y-3">
               {step.items[lang].map((it) => (
-                <details key={it} className="fold-item rounded-xl border border-[var(--line)] bg-white/80 px-4 py-3">
+                <details key={it.title} className="fold-item rounded-xl border border-[var(--line)] bg-white/80 px-4 py-3">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-lg font-medium">
-                    {it}
+                    {it.title}
                     <span aria-hidden="true" className="fold-arrow text-xl leading-none">
                       ▾
                     </span>
                   </summary>
-                  <p className="mt-2 text-sm muted">
-                    {lang === "en"
-                      ? `Start by listing your current status and next action for: ${it}.`
-                      : `先围绕「${it}」整理你当前状态和下一步行动。`}
+                  <p className="mt-2 whitespace-pre-wrap text-sm muted">
+                    {it.content ||
+                      (lang === "en"
+                        ? "No details yet. Add content in CMS under Timeline."
+                        : "暂无详细内容，可在 CMS 的 Timeline 中补充。")}
                   </p>
                 </details>
               ))}

@@ -5,12 +5,17 @@
       "title": { "zh": "定位与选校", "en": "Positioning and School Selection" },
       "subtitle": { "zh": "目标 / 预算 / 专业", "en": "Goal / Budget / Program" },
       "items": {
-        "zh": ["目标国家与城市", "预算与生活成本", "专业方向与课程匹配", "院校清单与优先级"],
+        "zh": [
+          { "title": "目标国家与城市", "content": "填写你优先的目标国家与城市，并说明选择原因（课程、语言、成本、就业）。" },
+          { "title": "预算与生活成本", "content": "写清楚学费预算、每月生活费范围，以及可接受的城市成本上限。" },
+          { "title": "专业方向与课程匹配", "content": "列出你目标专业的关键词，和你背景中最匹配的课程/项目经历。" },
+          { "title": "院校清单与优先级", "content": "把学校分成冲刺/匹配/保底三档，并标记申请截止日期。" }
+        ],
         "en": [
-          "Target country and city",
-          "Budget and living costs",
-          "Program direction and course fit",
-          "School shortlist and priorities"
+          { "title": "Target country and city", "content": "List your preferred countries and cities, and explain why they fit your goals." },
+          { "title": "Budget and living costs", "content": "Define tuition budget, monthly living cost range, and maximum acceptable city cost." },
+          { "title": "Program direction and course fit", "content": "Map target program keywords to your background, coursework, and project experience." },
+          { "title": "School shortlist and priorities", "content": "Split schools into reach/match/safety and mark all application deadlines." }
         ]
       }
     },
@@ -19,12 +24,17 @@
       "title": { "zh": "语言与考试", "en": "Language and Exams" },
       "subtitle": { "zh": "IELTS / TestDaF 等", "en": "IELTS / TestDaF, etc." },
       "items": {
-        "zh": ["目标分数与截止时间", "备考计划", "报名与考位", "出分与复议策略"],
+        "zh": [
+          { "title": "目标分数与截止时间", "content": "" },
+          { "title": "备考计划", "content": "" },
+          { "title": "报名与考位", "content": "" },
+          { "title": "出分与复议策略", "content": "" }
+        ],
         "en": [
-          "Target score and deadline",
-          "Study plan",
-          "Registration and seat booking",
-          "Score release and remark strategy"
+          { "title": "Target score and deadline", "content": "" },
+          { "title": "Study plan", "content": "" },
+          { "title": "Registration and seat booking", "content": "" },
+          { "title": "Score release and remark strategy", "content": "" }
         ]
       }
     },
@@ -33,12 +43,17 @@
       "title": { "zh": "材料准备", "en": "Application Materials" },
       "subtitle": { "zh": "CV / 动机信 / 推荐信", "en": "CV / Motivation Letter / References" },
       "items": {
-        "zh": ["CV（英文/德文）", "动机信结构", "推荐人沟通", "材料版本管理"],
+        "zh": [
+          { "title": "CV（英文/德文）", "content": "" },
+          { "title": "动机信结构", "content": "" },
+          { "title": "推荐人沟通", "content": "" },
+          { "title": "材料版本管理", "content": "" }
+        ],
         "en": [
-          "CV (English/German)",
-          "Motivation letter structure",
-          "Recommender communication",
-          "Version control for materials"
+          { "title": "CV (English/German)", "content": "" },
+          { "title": "Motivation letter structure", "content": "" },
+          { "title": "Recommender communication", "content": "" },
+          { "title": "Version control for materials", "content": "" }
         ]
       }
     },
@@ -47,12 +62,17 @@
       "title": { "zh": "申请提交与跟进", "en": "Submission and Follow-up" },
       "subtitle": { "zh": "邮件 / 系统", "en": "Email / Portals" },
       "items": {
-        "zh": ["申请系统清单", "邮件模板", "时间节点追踪", "补件与面试准备"],
+        "zh": [
+          { "title": "申请系统清单", "content": "" },
+          { "title": "邮件模板", "content": "" },
+          { "title": "时间节点追踪", "content": "" },
+          { "title": "补件与面试准备", "content": "" }
+        ],
         "en": [
-          "Application portal checklist",
-          "Email templates",
-          "Timeline tracking",
-          "Additional docs and interview prep"
+          { "title": "Application portal checklist", "content": "" },
+          { "title": "Email templates", "content": "" },
+          { "title": "Timeline tracking", "content": "" },
+          { "title": "Additional docs and interview prep", "content": "" }
         ]
       }
     },
@@ -61,12 +81,17 @@
       "title": { "zh": "签证与资金证明", "en": "Visa and Financial Proof" },
       "subtitle": { "zh": "清单化", "en": "Checklist-based" },
       "items": {
-        "zh": ["材料总清单", "资金证明/冻结", "预约与递签流程", "常见坑与补充材料"],
+        "zh": [
+          { "title": "材料总清单", "content": "" },
+          { "title": "资金证明/冻结", "content": "" },
+          { "title": "预约与递签流程", "content": "" },
+          { "title": "常见坑与补充材料", "content": "" }
+        ],
         "en": [
-          "Master document checklist",
-          "Financial proof / blocked account",
-          "Appointment and submission flow",
-          "Common pitfalls and extra documents"
+          { "title": "Master document checklist", "content": "" },
+          { "title": "Financial proof / blocked account", "content": "" },
+          { "title": "Appointment and submission flow", "content": "" },
+          { "title": "Common pitfalls and extra documents", "content": "" }
         ]
       }
     },
@@ -75,12 +100,17 @@
       "title": { "zh": "行前与落地", "en": "Pre-departure and Arrival" },
       "subtitle": { "zh": "住宿 / 保险 / 开户", "en": "Housing / Insurance / Banking" },
       "items": {
-        "zh": ["住宿与 Anmeldung", "保险选择", "开户与手机卡", "落地一周生存清单"],
+        "zh": [
+          { "title": "住宿与 Anmeldung", "content": "" },
+          { "title": "保险选择", "content": "" },
+          { "title": "开户与手机卡", "content": "" },
+          { "title": "落地一周生存清单", "content": "" }
+        ],
         "en": [
-          "Housing and Anmeldung",
-          "Insurance choice",
-          "Bank account and SIM card",
-          "First-week arrival checklist"
+          { "title": "Housing and Anmeldung", "content": "" },
+          { "title": "Insurance choice", "content": "" },
+          { "title": "Bank account and SIM card", "content": "" },
+          { "title": "First-week arrival checklist", "content": "" }
         ]
       }
     }
