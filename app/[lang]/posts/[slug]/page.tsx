@@ -70,8 +70,11 @@ export default async function PostPage({
 
   return (
     <main className="min-h-screen text-[var(--foreground)]">
-      <div className="mx-auto max-w-3xl px-6 py-12">
-        <article className="paper cozy-prose rounded-3xl px-6 py-8 md:px-10 md:py-10">
+      <div className="mx-auto max-w-5xl px-6 py-10 md:py-14">
+        <article className="paper cozy-prose relative overflow-hidden rounded-3xl px-6 py-8 md:px-10 md:py-10 lg:px-12">
+          <div className="pointer-events-none absolute -right-24 -top-20 h-56 w-56 rounded-full bg-[var(--accent-soft)] blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-20 h-56 w-56 rounded-full bg-white/60 blur-3xl" />
+          <div className="relative">
           <div className="not-prose flex items-center justify-between gap-4">
             <Link href={withLang("/posts", lang)} className="text-sm muted hover:text-[var(--accent)]">
               ← {t.back}
@@ -89,6 +92,7 @@ export default async function PostPage({
           </p>
           <p className="not-prose mt-2 text-xs muted">{t.note}</p>
           <div className="prose prose-stone mt-6 max-w-none">{content}</div>
+          </div>
         </article>
       </div>
     </main>
