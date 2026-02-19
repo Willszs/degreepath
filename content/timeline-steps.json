@@ -2,115 +2,295 @@
   "steps": [
     {
       "slug": "step-1",
-      "title": { "zh": "定位与选校", "en": "Positioning and School Selection" },
-      "subtitle": { "zh": "目标 / 预算 / 专业", "en": "Goal / Budget / Program" },
+      "title": {
+        "zh": "定位与选校",
+        "en": "Positioning and School Selection"
+      },
+      "subtitle": {
+        "zh": "目标 / 预算 / 专业",
+        "en": "Goal / Budget / Program"
+      },
       "items": {
         "zh": [
-          { "title": "目标国家与城市", "content": "填写你优先的目标国家与城市，并说明选择原因（课程、语言、成本、就业）。" },
-          { "title": "预算与生活成本", "content": "写清楚学费预算、每月生活费范围，以及可接受的城市成本上限。" },
-          { "title": "专业方向与课程匹配", "content": "列出你目标专业的关键词，和你背景中最匹配的课程/项目经历。" },
-          { "title": "院校清单与优先级", "content": "把学校分成冲刺/匹配/保底三档，并标记申请截止日期。" }
+          {
+            "title": "目标城市与专业",
+            "content": "德国留学的第一步，不是填申请表，而是回答一个更核心的问题：\n\n你要去哪里生活？以及，你要在哪种学校环境里学习？\n\n很多人只看排名，却忽略城市成本、产业环境和个人生活偏好。\n而在德国，城市选择往往比学校排名更重要。\n\n在这一阶段，你需要明确：\n\n你更适合大城市（如柏林、慕尼黑、汉堡）还是学生城市（如图宾根、亚琛、达姆施塔特）？\n\n你重视就业资源，还是更看重生活成本？\n\n你申请的是综合大学（Universität）还是应用科学大学（Fachhochschule）？\n\n你未来是否计划留德工作？\n\n德国没有统一的全国排名体系。\n不同城市与学校之间的差异，更多体现在：\n\n专业实力\n\n产业匹配度\n\n国际化程度\n\n学生比例\n\n生活成本\n\n选校不是“名校优先”，而是“匹配优先”。"
+          },
+          {
+            "title": "预算与生活成本",
+            "content": "写清楚学费预算、每月生活费范围，以及可接受的城市成本上限。"
+          },
+          {
+            "title": "专业方向与课程匹配",
+            "content": "列出你目标专业的关键词，和你背景中最匹配的课程/项目经历。"
+          },
+          {
+            "title": "院校清单与优先级",
+            "content": "把学校分成冲刺/匹配/保底三档，并标记申请截止日期。"
+          }
         ],
         "en": [
-          { "title": "Target country and city", "content": "List your preferred countries and cities, and explain why they fit your goals." },
-          { "title": "Budget and living costs", "content": "Define tuition budget, monthly living cost range, and maximum acceptable city cost." },
-          { "title": "Program direction and course fit", "content": "Map target program keywords to your background, coursework, and project experience." },
-          { "title": "School shortlist and priorities", "content": "Split schools into reach/match/safety and mark all application deadlines." }
+          {
+            "title": "Target country and city",
+            "content": "List your preferred countries and cities, and explain why they fit your goals."
+          },
+          {
+            "title": "Budget and living costs",
+            "content": "Define tuition budget, monthly living cost range, and maximum acceptable city cost."
+          },
+          {
+            "title": "Program direction and course fit",
+            "content": "Map target program keywords to your background, coursework, and project experience."
+          },
+          {
+            "title": "School shortlist and priorities",
+            "content": "Split schools into reach/match/safety and mark all application deadlines."
+          }
         ]
       }
     },
     {
       "slug": "step-2",
-      "title": { "zh": "语言与考试", "en": "Language and Exams" },
-      "subtitle": { "zh": "IELTS / TestDaF 等", "en": "IELTS / TestDaF, etc." },
+      "title": {
+        "zh": "语言与考试",
+        "en": "Language and Exams"
+      },
+      "subtitle": {
+        "zh": "IELTS / TestDaF 等",
+        "en": "IELTS / TestDaF, etc."
+      },
       "items": {
         "zh": [
-          { "title": "目标分数与截止时间", "content": "" },
-          { "title": "备考计划", "content": "" },
-          { "title": "报名与考位", "content": "" },
-          { "title": "出分与复议策略", "content": "" }
+          {
+            "title": "目标分数与截止时间",
+            "content": "111"
+          },
+          {
+            "title": "备考计划",
+            "content": "111"
+          },
+          {
+            "title": "报名与考位",
+            "content": "111"
+          },
+          {
+            "title": "出分与复议策略",
+            "content": "111"
+          }
         ],
         "en": [
-          { "title": "Target score and deadline", "content": "" },
-          { "title": "Study plan", "content": "" },
-          { "title": "Registration and seat booking", "content": "" },
-          { "title": "Score release and remark strategy", "content": "" }
+          {
+            "title": "Target score and deadline",
+            "content": "111"
+          },
+          {
+            "title": "Study plan",
+            "content": "111"
+          },
+          {
+            "title": "Registration and seat booking",
+            "content": "11"
+          },
+          {
+            "title": "Score release and remark strategy",
+            "content": "11"
+          }
         ]
       }
     },
     {
       "slug": "step-3",
-      "title": { "zh": "材料准备", "en": "Application Materials" },
-      "subtitle": { "zh": "CV / 动机信 / 推荐信", "en": "CV / Motivation Letter / References" },
+      "title": {
+        "zh": "材料准备",
+        "en": "Application Materials"
+      },
+      "subtitle": {
+        "zh": "CV / 动机信 / 推荐信",
+        "en": "CV / Motivation Letter / References"
+      },
       "items": {
         "zh": [
-          { "title": "CV（英文/德文）", "content": "" },
-          { "title": "动机信结构", "content": "" },
-          { "title": "推荐人沟通", "content": "" },
-          { "title": "材料版本管理", "content": "" }
+          {
+            "title": "CV（英文/德文）",
+            "content": "11"
+          },
+          {
+            "title": "动机信结构",
+            "content": "11"
+          },
+          {
+            "title": "推荐人沟通",
+            "content": "11"
+          },
+          {
+            "title": "材料版本管理",
+            "content": "111"
+          }
         ],
         "en": [
-          { "title": "CV (English/German)", "content": "" },
-          { "title": "Motivation letter structure", "content": "" },
-          { "title": "Recommender communication", "content": "" },
-          { "title": "Version control for materials", "content": "" }
+          {
+            "title": "CV (English/German)",
+            "content": "111"
+          },
+          {
+            "title": "Motivation letter structure",
+            "content": "111"
+          },
+          {
+            "title": "Recommender communication",
+            "content": "11"
+          },
+          {
+            "title": "Version control for materials",
+            "content": "11"
+          }
         ]
       }
     },
     {
       "slug": "step-4",
-      "title": { "zh": "申请提交与跟进", "en": "Submission and Follow-up" },
-      "subtitle": { "zh": "邮件 / 系统", "en": "Email / Portals" },
+      "title": {
+        "zh": "申请提交与跟进",
+        "en": "Submission and Follow-up"
+      },
+      "subtitle": {
+        "zh": "邮件 / 系统",
+        "en": "Email / Portals"
+      },
       "items": {
         "zh": [
-          { "title": "申请系统清单", "content": "" },
-          { "title": "邮件模板", "content": "" },
-          { "title": "时间节点追踪", "content": "" },
-          { "title": "补件与面试准备", "content": "" }
+          {
+            "title": "申请系统清单",
+            "content": "111"
+          },
+          {
+            "title": "邮件模板",
+            "content": "11"
+          },
+          {
+            "title": "时间节点追踪",
+            "content": "11"
+          },
+          {
+            "title": "补件与面试准备",
+            "content": "11"
+          }
         ],
         "en": [
-          { "title": "Application portal checklist", "content": "" },
-          { "title": "Email templates", "content": "" },
-          { "title": "Timeline tracking", "content": "" },
-          { "title": "Additional docs and interview prep", "content": "" }
+          {
+            "title": "Application portal checklist",
+            "content": "11"
+          },
+          {
+            "title": "Email templates",
+            "content": "11"
+          },
+          {
+            "title": "Timeline tracking",
+            "content": "11"
+          },
+          {
+            "title": "Additional docs and interview prep",
+            "content": "11"
+          }
         ]
       }
     },
     {
       "slug": "step-5",
-      "title": { "zh": "签证与资金证明", "en": "Visa and Financial Proof" },
-      "subtitle": { "zh": "清单化", "en": "Checklist-based" },
+      "title": {
+        "zh": "签证与资金证明",
+        "en": "Visa and Financial Proof"
+      },
+      "subtitle": {
+        "zh": "清单化",
+        "en": "Checklist-based"
+      },
       "items": {
         "zh": [
-          { "title": "材料总清单", "content": "" },
-          { "title": "资金证明/冻结", "content": "" },
-          { "title": "预约与递签流程", "content": "" },
-          { "title": "常见坑与补充材料", "content": "" }
+          {
+            "title": "材料总清单",
+            "content": "11"
+          },
+          {
+            "title": "资金证明/冻结",
+            "content": "11"
+          },
+          {
+            "title": "预约与递签流程",
+            "content": "11"
+          },
+          {
+            "title": "常见坑与补充材料",
+            "content": "11"
+          }
         ],
         "en": [
-          { "title": "Master document checklist", "content": "" },
-          { "title": "Financial proof / blocked account", "content": "" },
-          { "title": "Appointment and submission flow", "content": "" },
-          { "title": "Common pitfalls and extra documents", "content": "" }
+          {
+            "title": "Master document checklist",
+            "content": "11"
+          },
+          {
+            "title": "Financial proof / blocked account",
+            "content": "11"
+          },
+          {
+            "title": "Appointment and submission flow",
+            "content": "11"
+          },
+          {
+            "title": "Common pitfalls and extra documents",
+            "content": "111"
+          }
         ]
       }
     },
     {
       "slug": "step-6",
-      "title": { "zh": "行前与落地", "en": "Pre-departure and Arrival" },
-      "subtitle": { "zh": "住宿 / 保险 / 开户", "en": "Housing / Insurance / Banking" },
+      "title": {
+        "zh": "行前与落地",
+        "en": "Pre-departure and Arrival"
+      },
+      "subtitle": {
+        "zh": "住宿 / 保险 / 开户",
+        "en": "Housing / Insurance / Banking"
+      },
       "items": {
         "zh": [
-          { "title": "住宿与 Anmeldung", "content": "" },
-          { "title": "保险选择", "content": "" },
-          { "title": "开户与手机卡", "content": "" },
-          { "title": "落地一周生存清单", "content": "" }
+          {
+            "title": "住宿与 Anmeldung",
+            "content": "11"
+          },
+          {
+            "title": "保险选择",
+            "content": "11"
+          },
+          {
+            "title": "开户与手机卡",
+            "content": "11"
+          },
+          {
+            "title": "落地一周生存清单",
+            "content": "11"
+          }
         ],
         "en": [
-          { "title": "Housing and Anmeldung", "content": "" },
-          { "title": "Insurance choice", "content": "" },
-          { "title": "Bank account and SIM card", "content": "" },
-          { "title": "First-week arrival checklist", "content": "" }
+          {
+            "title": "Housing and Anmeldung",
+            "content": "11"
+          },
+          {
+            "title": "Insurance choice",
+            "content": "11"
+          },
+          {
+            "title": "Bank account and SIM card",
+            "content": "11"
+          },
+          {
+            "title": "First-week arrival checklist",
+            "content": "11"
+          }
         ]
       }
     }
