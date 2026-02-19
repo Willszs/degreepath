@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { compileMDX } from "next-mdx-remote/rsc";
 import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
 import { timelineSteps } from "@/lib/timeline-steps";
 
@@ -41,6 +42,21 @@ export default async function TimelineDetailPage({
 
   if (!step) return notFound();
 
+  const renderedItems = await Promise.all(
+    step.items[lang].map(async (item) => {
+      const source = item.content.trim();
+      if (!source) {
+        return { title: item.title, content: null as React.ReactNode | null };
+      }
+
+      const { content } = await compileMDX({
+        source,
+        options: { parseFrontmatter: false },
+      });
+      return { title: item.title, content };
+    }),
+  );
+
   const t =
     lang === "en"
       ? {
@@ -76,7 +92,7 @@ export default async function TimelineDetailPage({
           <div className="mt-8 rounded-2xl border border-[var(--line)] bg-white/70 p-6">
             <h2 className="text-lg font-semibold">{t.title}</h2>
             <div className="mt-4 space-y-3">
-              {step.items[lang].map((it) => (
+              {renderedItems.map((it) => (
                 <details key={it.title} className="fold-item rounded-xl border border-[var(--line)] bg-white/80 px-4 py-3">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-lg font-medium">
                     {it.title}
@@ -84,12 +100,13 @@ export default async function TimelineDetailPage({
                       ▾
                     </span>
                   </summary>
-                  <p className="mt-2 whitespace-pre-wrap text-sm muted">
-                    {it.content ||
-                      (lang === "en"
-                        ? "No details yet. Add content in CMS under Timeline."
-                        : "暂无详细内容，可在 CMS 的 Timeline 中补充。")}
-                  </p>
+                  {it.content ? (
+                    <div className="fold-markdown mt-2">{it.content}</div>
+                  ) : (
+                    <p className="mt-2 text-sm muted">
+                      {lang === "en" ? "No details yet. Add content in CMS under Timeline." : "暂无详细内容，可在 CMS 的 Timeline 中补充。"}
+                    </p>
+                  )}
                 </details>
               ))}
             </div>
