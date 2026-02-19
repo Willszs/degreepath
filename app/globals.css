@@ -416,6 +416,66 @@ section[id] {
   color: var(--foreground);
 }
 
+.cozy-prose .prose {
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+.cozy-prose .prose h1 {
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.cozy-prose .prose h2 {
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.55rem;
+  line-height: 1.28;
+  font-weight: 750;
+}
+
+.cozy-prose .prose h3 {
+  margin-top: 1.3rem;
+  margin-bottom: 0.65rem;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.cozy-prose .prose p {
+  margin: 0.9rem 0;
+}
+
+.cozy-prose .prose strong {
+  color: var(--foreground);
+  font-weight: 800;
+}
+
+.cozy-prose .prose ul,
+.cozy-prose .prose ol {
+  margin: 0.8rem 0 1rem;
+  padding-left: 1.3rem;
+}
+
+.cozy-prose .prose li {
+  margin: 0.35rem 0;
+}
+
+.cozy-prose .prose hr {
+  margin: 1.6rem 0;
+  border-color: var(--line);
+}
+
+.cozy-prose .prose blockquote {
+  margin: 1rem 0;
+  border-left: 3px solid var(--accent);
+  padding-left: 0.9rem;
+  color: var(--muted);
+}
+
 [data-motion="on"] [data-reveal] {
   opacity: 0;
   transform: translateY(20px);
