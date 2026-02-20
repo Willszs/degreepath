@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import type { Lang } from "@/lib/i18n";
-import { shortlistSchools } from "@/lib/school-shortlist";
 import questionnaire from "@/content/school-shortlist-questionnaire.json";
 
 type Props = { lang: Lang };
@@ -82,6 +81,17 @@ export default function SchoolShortlistTool({ lang }: Props) {
   const [currentSection, setCurrentSection] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [results, setResults] = useState<
+    Array<{
+      id: string;
+      programName: string;
+      university: string;
+      city: string;
+      degree: string;
+      reason: string;
+    }>
+  >([]);
 
   const section = sections[currentSection];
   const progress = Math.round(((currentSection + 1) / sections.length) * 100);
@@ -96,8 +106,8 @@ export default function SchoolShortlistTool({ lang }: Props) {
           run: "Generate 8 Schools",
           analyzing: "Analyzing your profile...",
           reset: "Reset",
-          score: "Fit Score",
           reason: "Reason",
+          disclaimer: "Recommendations are generated from DAAD website data and are for reference only. Contact us for detailed planning.",
         }
       : {
           title: "学校初选问卷",
@@ -107,31 +117,28 @@ export default function SchoolShortlistTool({ lang }: Props) {
           run: "生成 8 所学校",
           analyzing: "正在分析你的画像...",
           reset: "重置问卷",
-          score: "匹配分",
           reason: "推荐理由",
+          disclaimer: "推荐来自 DAAD 官网数据，仅供参考，详情可进一步咨询。",
         };
 
-  const results = useMemo(() => {
-    const keyword = [
-      categoryKeyword(answers.programCategory ?? ""),
-      directionKeyword(answers.trainingDirection ?? ""),
-      answers.undergraduateMajor ?? "",
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    return shortlistSchools(
-      {
-        programKeyword: keyword,
-        budget: mapBudget(answers.monthlyBudget ?? "no_limit"),
-        englishOnly: mapEnglishOnly(answers.teachingLanguage ?? "no_pref"),
-        languageScore: mapIelts(answers.englishScore ?? "none"),
-        citySize: mapCitySize(answers.citySize ?? "large"),
-        intake: mapIntake(answers.mustThisYear ?? "not_sure"),
-      },
-      lang,
-    );
-  }, [answers, lang]);
+  const normalizedAnswers = useMemo(
+    () => ({
+      ...answers,
+      programKeyword: [
+        categoryKeyword(answers.programCategory ?? ""),
+        directionKeyword(answers.trainingDirection ?? ""),
+        answers.undergraduateMajor ?? "",
+      ]
+        .filter(Boolean)
+        .join(" "),
+      budget: mapBudget(answers.monthlyBudget ?? "no_limit"),
+      englishOnly: mapEnglishOnly(answers.teachingLanguage ?? "no_pref") ? "true" : "false",
+      languageScore: String(mapIelts(answers.englishScore ?? "none")),
+      citySize: mapCitySize(answers.citySize ?? "large"),
+      intake: mapIntake(answers.mustThisYear ?? "not_sure"),
+    }),
+    [answers],
+  );
 
   const setAnswer = (key: string, value: string) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -139,8 +146,33 @@ export default function SchoolShortlistTool({ lang }: Props) {
 
   const onGenerate = async () => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
+    setError(null);
+    try {
+      const res = await fetch("/api/school-shortlist", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ lang, answers: normalizedAnswers }),
+      });
+      const data = (await res.json()) as {
+        error?: string;
+        results?: Array<{
+          id: string;
+          programName: string;
+          university: string;
+          city: string;
+          degree: string;
+          reason: string;
+        }>;
+      };
+      if (!res.ok) {
+        setResults([]);
+        setError(data.error ?? (lang === "en" ? "Request failed." : "请求失败。"));
+        return;
+      }
+      setResults(data.results ?? []);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -273,6 +305,8 @@ export default function SchoolShortlistTool({ lang }: Props) {
               onClick={() => {
                 setAnswers(initialAnswers);
                 setCurrentSection(0);
+                setResults([]);
+                setError(null);
               }}
               className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm"
             >
@@ -284,21 +318,19 @@ export default function SchoolShortlistTool({ lang }: Props) {
 
       <div className="mt-6">
         {loading ? <div className="paper rounded-2xl p-4 text-sm">{t.analyzing}</div> : null}
-        {!loading && currentSection === sections.length - 1 ? (
+        {!loading && error ? <div className="paper rounded-2xl p-4 text-sm text-red-700">{error}</div> : null}
+        {!loading && currentSection === sections.length - 1 && results.length > 0 ? (
+          <>
+          <div className="mb-3 text-xs muted">{t.disclaimer}</div>
           <div className="grid gap-3 md:grid-cols-2">
             {results.map((row, idx) => (
-              <div key={row.school.id} className="paper rounded-2xl p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-lg font-semibold">
-                      {idx + 1}. {row.school.name}
-                    </div>
-                    <div className="text-xs muted">
-                      {row.school.city} · IELTS {row.school.minIelts}+
-                    </div>
+              <div key={row.id} className="paper rounded-2xl p-4">
+                <div>
+                  <div className="text-lg font-semibold">
+                    {idx + 1}. {row.programName}
                   </div>
-                  <div className="rounded-full border border-[var(--line)] bg-white px-3 py-1 text-xs font-semibold">
-                    {t.score}: {row.score}
+                  <div className="text-xs muted">
+                    {row.university} · {row.city} · {row.degree}
                   </div>
                 </div>
                 <div className="mt-3 text-sm muted">
@@ -307,6 +339,7 @@ export default function SchoolShortlistTool({ lang }: Props) {
               </div>
             ))}
           </div>
+          </>
         ) : null}
       </div>
     </section>

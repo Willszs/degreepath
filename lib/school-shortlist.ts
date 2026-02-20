@@ -1,75 +1,127 @@
+import daadPrograms from "@/content/daad-programs.json";
 import type { Lang } from "@/lib/i18n";
 
 export type BudgetLevel = "low" | "medium" | "high";
 export type CitySize = "small" | "medium" | "large";
 export type Intake = "winter" | "summer" | "both";
 
-export type ShortlistAnswers = {
-  programKeyword: string;
-  budget: BudgetLevel;
-  englishOnly: boolean;
-  languageScore: number;
-  citySize: CitySize;
-  intake: Intake;
-};
+export type ShortlistAnswers = Record<string, string>;
 
-export type SchoolItem = {
+export type DaadProgram = {
   id: string;
-  name: string;
+  programName: string;
+  university: string;
   city: string;
   citySize: CitySize;
-  tuition: BudgetLevel;
+  tuitionLevel: BudgetLevel;
   englishFriendly: boolean;
   minIelts: number;
-  tags: string[];
   intake: Intake;
+  degree: "MSc" | "MA" | "MBA";
+  tags: string[];
 };
 
-export type ScoredSchool = {
-  school: SchoolItem;
+export type ScoredProgram = {
+  program: DaadProgram;
   score: number;
   reason: string;
 };
 
-export const schoolPool: SchoolItem[] = [
-  { id: "tum", name: "TUM", city: "Munich", citySize: "large", tuition: "medium", englishFriendly: true, minIelts: 6.5, tags: ["engineering", "data", "computer", "robotics"], intake: "both" },
-  { id: "rwth", name: "RWTH Aachen", city: "Aachen", citySize: "medium", tuition: "low", englishFriendly: true, minIelts: 6, tags: ["engineering", "mechanical", "electrical", "materials"], intake: "both" },
-  { id: "kit", name: "KIT", city: "Karlsruhe", citySize: "medium", tuition: "low", englishFriendly: true, minIelts: 6.5, tags: ["computer", "ai", "engineering", "physics"], intake: "both" },
-  { id: "tum-dresden", name: "TU Dresden", city: "Dresden", citySize: "medium", tuition: "low", englishFriendly: true, minIelts: 6, tags: ["engineering", "microelectronics", "materials"], intake: "both" },
-  { id: "stuttgart", name: "University of Stuttgart", city: "Stuttgart", citySize: "large", tuition: "medium", englishFriendly: true, minIelts: 6.5, tags: ["automotive", "mechanical", "embedded", "software"], intake: "both" },
-  { id: "mannheim", name: "University of Mannheim", city: "Mannheim", citySize: "medium", tuition: "low", englishFriendly: true, minIelts: 6.5, tags: ["business", "economics", "data"], intake: "both" },
-  { id: "hamburg", name: "University of Hamburg", city: "Hamburg", citySize: "large", tuition: "low", englishFriendly: true, minIelts: 6.5, tags: ["law", "social", "computer", "data"], intake: "both" },
-  { id: "cologne", name: "University of Cologne", city: "Cologne", citySize: "large", tuition: "low", englishFriendly: true, minIelts: 6, tags: ["business", "economics", "management"], intake: "both" },
-  { id: "freiburg", name: "University of Freiburg", city: "Freiburg", citySize: "small", tuition: "low", englishFriendly: true, minIelts: 6.5, tags: ["environment", "computer", "data", "sustainability"], intake: "both" },
-  { id: "bremen", name: "University of Bremen", city: "Bremen", citySize: "medium", tuition: "low", englishFriendly: true, minIelts: 6, tags: ["logistics", "marine", "engineering", "computer"], intake: "both" },
-];
+export const programPool = (daadPrograms as { programs: DaadProgram[] }).programs;
 
-const budgetWeight: Record<BudgetLevel, number> = { low: 3, medium: 2, high: 1 };
+function mapBudget(value: string): BudgetLevel {
+  if (value === "under_700" || value === "700_1000") return "low";
+  if (value === "1000_1300") return "medium";
+  return "high";
+}
 
-export function shortlistSchools(answers: ShortlistAnswers, lang: Lang): ScoredSchool[] {
-  const keyword = answers.programKeyword.toLowerCase();
+function mapCitySize(value: string): CitySize {
+  if (value === "small") return "small";
+  if (value === "medium") return "medium";
+  return "large";
+}
 
-  return schoolPool
-    .map((school) => {
+function mapEnglishOnly(value: string): boolean {
+  return value === "english";
+}
+
+function mapIelts(value: string): number {
+  if (["ielts_7_plus", "toefl_100_plus", "tdn5", "dsh3"].includes(value)) return 7;
+  if (["ielts_65_70", "toefl_90_100", "c1", "tdn4", "dsh2"].includes(value)) return 6.5;
+  if (["ielts_6_65", "toefl_80_90", "b2", "dsh1"].includes(value)) return 6;
+  return 5.5;
+}
+
+function mapIntake(value: string): Intake {
+  if (value === "yes") return "winter";
+  return "both";
+}
+
+function categoryKeyword(value: string): string {
+  const map: Record<string, string> = {
+    engineering: "engineering mechanical electrical",
+    cs_it: "computer data software ai",
+    business: "business economics management",
+    science: "physics chemistry biology materials",
+    social: "social policy law",
+    design: "design media art",
+  };
+  return map[value] ?? value;
+}
+
+function directionKeyword(value: string): string {
+  const map: Record<string, string> = {
+    theory: "research theory",
+    practice: "practice applied",
+    tech_mgmt: "technology management",
+    salary: "employment industry",
+    interest: "interest focus",
+  };
+  return map[value] ?? value;
+}
+
+export function buildKeywordFromAnswers(answers: ShortlistAnswers): string {
+  return [
+    categoryKeyword(answers.programCategory ?? ""),
+    directionKeyword(answers.trainingDirection ?? ""),
+    answers.undergraduateMajor ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+export function shortlistProgramsByRules(answers: ShortlistAnswers, lang: Lang, limit = 12): ScoredProgram[] {
+  const keyword = buildKeywordFromAnswers(answers);
+  const budget = mapBudget(answers.monthlyBudget ?? "no_limit");
+  const englishOnly = mapEnglishOnly(answers.teachingLanguage ?? "no_pref");
+  const languageScore = mapIelts(answers.englishScore ?? "none");
+  const citySize = mapCitySize(answers.citySize ?? "large");
+  const intake = mapIntake(answers.mustThisYear ?? "not_sure");
+
+  const budgetWeight: Record<BudgetLevel, number> = { low: 3, medium: 2, high: 1 };
+
+  return programPool
+    .map((program) => {
       let score = 0;
-      if (school.tuition === answers.budget) score += 22;
-      else if (budgetWeight[school.tuition] >= budgetWeight[answers.budget]) score += 10;
+      if (program.tuitionLevel === budget) score += 22;
+      else if (budgetWeight[program.tuitionLevel] >= budgetWeight[budget]) score += 10;
 
-      if (answers.englishOnly && school.englishFriendly) score += 14;
-      if (answers.languageScore >= school.minIelts) score += 16;
-      if (school.citySize === answers.citySize) score += 10;
-      if (answers.intake === "both" || school.intake === "both" || school.intake === answers.intake) score += 10;
+      if (!englishOnly || program.englishFriendly) score += 14;
+      if (languageScore >= program.minIelts) score += 18;
+      if (program.citySize === citySize) score += 10;
+      if (intake === "both" || program.intake === "both" || program.intake === intake) score += 10;
 
-      const tagMatch = school.tags.some((tag) => keyword.includes(tag) || tag.includes(keyword));
-      if (tagMatch) score += 28;
+      const tagMatch = program.tags.some((tag) => keyword.includes(tag) || tag.includes(keyword));
+      if (tagMatch) score += 26;
 
       const reason =
         lang === "en"
-          ? `${school.city} · ${school.tags.slice(0, 2).join(", ")} · IELTS ${school.minIelts}+`
-          : `${school.city} · ${school.tags.slice(0, 2).join("、")} · 雅思建议 ${school.minIelts}+`;
+          ? `${program.university} · ${program.city} · ${program.tags.slice(0, 2).join(", ")}`
+          : `${program.university} · ${program.city} · ${program.tags.slice(0, 2).join("、")}`;
 
-      return { school, score, reason };
+      return { program, score, reason };
     })
     .sort((a, b) => b.score - a.score)
-    .slice(0, 8);
+    .slice(0, limit);
 }
