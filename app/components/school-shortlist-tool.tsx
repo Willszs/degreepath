@@ -155,6 +155,7 @@ export default function SchoolShortlistTool({ lang }: Props) {
       });
       const data = (await res.json()) as {
         error?: string;
+        detail?: string;
         results?: Array<{
           id: string;
           programName: string;
@@ -166,7 +167,9 @@ export default function SchoolShortlistTool({ lang }: Props) {
       };
       if (!res.ok) {
         setResults([]);
-        setError(data.error ?? (lang === "en" ? "Request failed." : "请求失败。"));
+        const baseError = data.error ?? (lang === "en" ? "Request failed." : "请求失败。");
+        const fullError = data.detail ? `${baseError}\n${data.detail}` : baseError;
+        setError(fullError);
         return;
       }
       setResults(data.results ?? []);
