@@ -111,3 +111,60 @@ collections:
                     name: en
                     widget: list
                     field: { label: Highlight, name: highlight, widget: string }
+
+  - name: school_shortlist
+    label: School Shortlist Questionnaire
+    files:
+      - label: Questionnaire
+        name: questionnaire
+        file: content/school-shortlist-questionnaire.json
+        format: json
+        fields:
+          - label: Sections
+            name: sections
+            widget: list
+            summary: '{{fields.id}}'
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Icon, name: icon, widget: string }
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - { label: Chinese, name: zh, widget: string }
+                  - { label: English, name: en, widget: string }
+              - label: Questions
+                name: questions
+                widget: list
+                summary: '{{fields.id}} ({{fields.type}})'
+                fields:
+                  - { label: ID, name: id, widget: string }
+                  - label: Type
+                    name: type
+                    widget: select
+                    options: [options, input, gpa]
+                  - label: Title
+                    name: title
+                    widget: object
+                    fields:
+                      - { label: Chinese, name: zh, widget: string }
+                      - { label: English, name: en, widget: string }
+                  - label: Placeholder
+                    name: placeholder
+                    required: false
+                    widget: object
+                    fields:
+                      - { label: Chinese, name: zh, widget: string, required: false }
+                      - { label: English, name: en, widget: string, required: false }
+                  - label: Options
+                    name: options
+                    required: false
+                    widget: list
+                    fields:
+                      - { label: Value, name: value, widget: string }
+                      - label: Label
+                        name: label
+                        widget: object
+                        fields:
+                          - { label: Chinese, name: zh, widget: string }
+                          - { label: English, name: en, widget: string }

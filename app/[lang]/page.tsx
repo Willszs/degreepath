@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getPostSummaries } from "@/lib/content-posts";
 import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
-import { resourceItems } from "@/lib/resources";
 import { timelineSteps } from "@/lib/timeline-steps";
 import HomeMotion from "@/app/components/home-motion";
 
@@ -65,7 +64,7 @@ export default async function Home({
     lang === "en"
       ? {
           navTimeline: "Timeline",
-          navResources: "Resources",
+          navResources: "School Tool",
           navPosts: "Posts",
           navAbout: "About",
           navContact: "Contact",
@@ -80,9 +79,9 @@ export default async function Home({
           s1Title: "Preparation Flow",
           s1Text: "Break the process into phases to avoid overwhelm and keep momentum.",
           s1Link: "Open timeline",
-          s2Title: "Template Toolkit",
-          s2Text: "Practical templates you can copy, edit, and use right away.",
-          s2Link: "Browse resources",
+          s2Title: "School Shortlist",
+          s2Text: "Answer key questions and get 8 suggested schools with reasoning.",
+          s2Link: "Open tool",
           s3Title: "Real Stories",
           s3Text: "Lessons learned from exams, waiting periods, and life setup.",
           s3Link: "Read stories",
@@ -90,10 +89,10 @@ export default async function Home({
           timelineText: "Pick your current stage and jump into concrete tasks.",
           timelineMeta: "Actionable path",
           timelineCta: "Open step",
-          resourcesTitle: "Resources",
-          resourcesText: "Each template includes context and usage tips.",
-          resourcesMeta: "Template library",
-          resourcesCta: "Use template",
+          resourcesTitle: "School Shortlist Tool",
+          resourcesText: "A guided questionnaire that generates 8 schools and next-step hints.",
+          resourcesMeta: "AI-assisted",
+          resourcesCta: "Start now",
           postsTitle: "Latest Posts",
           postsAll: "View all",
           postsText: `Recently updated ${posts.length} posts.`,
@@ -113,7 +112,7 @@ export default async function Home({
         }
       : {
           navTimeline: "流程",
-          navResources: "资源",
+          navResources: "选校工具",
           navPosts: "文章",
           navAbout: "关于",
           navContact: "联系",
@@ -128,9 +127,9 @@ export default async function Home({
           s1Title: "准备流程",
           s1Text: "把申请拆成阶段任务，避免“一次做太多”导致焦虑和中断。",
           s1Link: "打开时间线",
-          s2Title: "模板资源",
-          s2Text: "给你能直接改、直接用的版本，而不是只能参考的空框架。",
-          s2Link: "查看资源",
+          s2Title: "学校初选",
+          s2Text: "回答关键问题，自动给出 8 所学校和匹配理由。",
+          s2Link: "进入工具",
           s3Title: "真实经历",
           s3Text: "把踩坑、等待和复盘写清楚，帮你少走弯路也少一点内耗。",
           s3Link: "读文章",
@@ -138,10 +137,10 @@ export default async function Home({
           timelineText: "先选一个你现在所处的阶段，直接进入本周可执行任务。",
           timelineMeta: "可执行路径",
           timelineCta: "进入该步骤",
-          resourcesTitle: "模板资源",
-          resourcesText: "每个模板都配了用途说明和使用要点，减少“知道但不会用”。",
-          resourcesMeta: "模板资料库",
-          resourcesCta: "使用模板",
+          resourcesTitle: "学校初选工具",
+          resourcesText: "通过问卷快速生成 8 所建议学校，并附带下一步动作提示。",
+          resourcesMeta: "AI 辅助",
+          resourcesCta: "立即开始",
           postsTitle: "最新文章",
           postsAll: "查看全部",
           postsText: `最近更新 ${posts.length} 篇，先从最靠近你当下阶段的主题读起。`,
@@ -275,12 +274,12 @@ export default async function Home({
           </div>
 
           <div className="paper rounded-2xl p-6">
-            <div className="text-sm muted">Toolkit</div>
+            <div className="text-sm muted">{lang === "en" ? "School Tool" : "选校工具"}</div>
             <h2 className="mt-2 text-xl font-semibold">{t.s2Title}</h2>
             <p className="mt-2 text-sm muted">{t.s2Text}</p>
-            <a href="#resources" className="mt-4 inline-block text-sm font-medium accent hover:underline">
+            <Link href={withLang("/school-shortlist", lang)} className="mt-4 inline-block text-sm font-medium accent hover:underline">
               {t.s2Link} →
-            </a>
+            </Link>
           </div>
 
           <div className="paper rounded-2xl p-6">
@@ -332,34 +331,24 @@ export default async function Home({
           <h3 className="text-2xl font-semibold">{t.resourcesTitle}</h3>
           <p className="mt-2 text-sm muted">{t.resourcesText}</p>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {resourceItems.map((item) => (
-              <Link
-                key={item.slug}
-                href={withLang(`/resources/${item.slug}`, lang)}
-                data-reveal-item
-                className="paper group rounded-2xl p-5 text-sm transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
-                data-tilt
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="text-xs uppercase tracking-wider muted">
-                    {t.resourcesMeta}
-                  </div>
-                  <div className="rounded-full border border-[var(--line)] px-2 py-0.5 text-[10px] font-semibold muted">
-                    PDF / DOC
-                  </div>
-                </div>
-                <div className="mt-3 font-semibold">{item.title[lang]}</div>
-                <div className="mt-1 text-xs muted">{item.subtitle[lang]}</div>
-                <div className="mt-3 rounded-lg border border-[var(--line)] bg-white/70 px-3 py-2 text-xs muted">
-                  {item.highlights[lang][0]}
-                </div>
-                <div className="mt-3 text-xs font-medium transition group-hover:text-[var(--accent)]">
-                  {t.resourcesCta} →
-                </div>
-              </Link>
-            ))}
-          </div>
+          <Link
+            href={withLang("/school-shortlist", lang)}
+            data-reveal-item
+            className="paper group mt-6 block rounded-3xl p-6 transition hover:-translate-y-0.5 hover:bg-[var(--accent-soft)]"
+            data-tilt
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-xs uppercase tracking-wider muted">{t.resourcesMeta}</div>
+              <div className="rounded-full border border-[var(--line)] px-2 py-0.5 text-[10px] font-semibold muted">
+                7 blocks · 21 Qs
+              </div>
+            </div>
+            <div className="mt-3 text-xl font-semibold">{t.resourcesTitle}</div>
+            <div className="mt-2 text-sm muted">{t.resourcesText}</div>
+            <div className="mt-4 inline-flex rounded-full border border-[var(--line)] bg-white/70 px-3 py-1 text-xs font-medium transition group-hover:text-[var(--accent)]">
+              {t.resourcesCta} →
+            </div>
+          </Link>
         </section>
 
         <section id="posts" className="mt-16" data-reveal>
