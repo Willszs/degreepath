@@ -51,7 +51,6 @@ async function recommendFromDaadWeb(
     },
     body: JSON.stringify({
       model,
-      temperature: 0.2,
       tools: [{ type: "web_search_preview", search_context_size: "medium" }],
       input: [
         {
