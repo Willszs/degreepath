@@ -104,10 +104,10 @@ export default function SchoolShortlistTool({ lang }: Props) {
           prev: "Previous",
           next: "Next",
           run: "Generate 8 Schools",
-          analyzing: "Analyzing your profile...",
+          analyzing: "Selecting the school suits you...",
           reset: "Reset",
           reason: "Reason",
-          disclaimer: "Recommendations are generated from DAAD website data and are for reference only. Contact us for detailed planning.",
+          disclaimer: "These recommendations are for reference only. Contact us for detailed planning.",
         }
       : {
           title: "学校初选问卷",
@@ -115,10 +115,10 @@ export default function SchoolShortlistTool({ lang }: Props) {
           prev: "上一部分",
           next: "下一部分",
           run: "生成 8 所学校",
-          analyzing: "正在分析你的画像...",
+          analyzing: "正在挑选适合你的学校和项目...",
           reset: "重置问卷",
           reason: "推荐理由",
-          disclaimer: "推荐来自 DAAD 官网数据，仅供参考，详情可进一步咨询。",
+          disclaimer: "以上推荐仅供参考，详情可进一步咨询。",
         };
 
   const normalizedAnswers = useMemo(

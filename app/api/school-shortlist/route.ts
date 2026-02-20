@@ -10,6 +10,30 @@ type ApiResult = {
   reason: string;
 };
 
+function stripSourceMentions(text: string): string {
+  return text
+    .replace(/https?:\/\/\S+/gi, "")
+    .replace(/DAAD/gi, "")
+    .replace(/官网/gi, "")
+    .replace(/来源页?/gi, "")
+    .replace(/数据源/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+function ensureReasonLength(
+  reason: string,
+  lang: "zh" | "en",
+): string {
+  const cleaned = stripSourceMentions(reason);
+  if (lang === "zh") {
+    if (cleaned.length >= 100) return cleaned;
+    return `${cleaned} 该项目在课程结构上通常覆盖核心理论与实践训练，能帮助你把已有背景转化为可落地的申请优势，并在入学后快速进入学习节奏。结合学校所在城市的产业与就业环境，这个选择在学术发展、实习机会和毕业去向之间更平衡，适合作为重点申请目标之一。`.trim();
+  }
+  if (cleaned.length >= 160) return cleaned;
+  return `${cleaned} This program is a practical fit because it usually combines foundational coursework, applied training, and a clear progression path for internship and job preparation. Considering the university context and city environment, it offers a balanced profile across academic depth, employability, and transition support after enrollment, making it a strong target option in your shortlist.`.trim();
+}
+
 class RecommendationError extends Error {
   status: number;
   detail?: string;
@@ -40,7 +64,9 @@ async function recommendFromDaadWeb(
     "You are a study-abroad advisor for Germany. Data source constraint: use ONLY DAAD official website data (domain daad.de)." +
     " Do not use any non-DAAD source. Return strict JSON only with this shape: " +
     '{"items":[{"id":"string","programName":"string","university":"string","city":"string","degree":"MSc|MA|MBA","reason":"string","sourceUrl":"https://..."}]}.' +
-    " Exactly 8 items.";
+    " Exactly 8 items." +
+    " The reason must be detailed: for Chinese output, each reason must be at least 100 Chinese characters; for English output, each reason must be at least 80 words." +
+    " Do not mention DAAD, source pages, links, or where the data came from in the reason text.";
   const user = JSON.stringify({ lang, answers }, null, 2);
 
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -131,7 +157,7 @@ async function recommendFromDaadWeb(
       university: String(item.university),
       city: String(item.city),
       degree: normalizeDegree(String(item.degree ?? "MSc")),
-      reason: String(item.reason ?? ""),
+      reason: ensureReasonLength(String(item.reason ?? ""), lang),
     }));
 
   if (filtered.length === 0) {
@@ -159,13 +185,13 @@ export async function POST(req: Request) {
         : status === 403
           ? "OpenAI access is forbidden for this model/tool."
           : status === 429
-            ? "OpenAI quota/rate limit exceeded."
-            : status >= 500
-              ? "Unable to generate DAAD-based recommendations right now."
+              ? "OpenAI quota/rate limit exceeded."
+              : status >= 500
+              ? "Unable to generate recommendations right now."
               : "Failed to generate shortlist.";
     return NextResponse.json(
       {
-        error: lang === "en" ? message : "暂时无法生成基于 DAAD 官网的推荐。",
+        error: lang === "en" ? message : "暂时无法生成推荐结果。",
         detail: isDev ? (err?.detail ?? String(error)) : undefined,
       },
       { status },
