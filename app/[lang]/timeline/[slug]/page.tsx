@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { compileMDX } from "next-mdx-remote/rsc";
+import TimelineAccordionEnhancer from "@/app/components/timeline-accordion-enhancer";
 import { resolveLangParam, otherLang, withLang } from "@/lib/i18n";
 import { timelineSteps } from "@/lib/timeline-steps";
 
@@ -95,19 +96,25 @@ export default async function TimelineDetailPage({
 
             <div className="rounded-2xl border border-[var(--line)] bg-white/70 p-6 md:p-7">
               <h2 className="text-lg font-semibold">{t.title}</h2>
-              <div className="mt-4 space-y-3">
-                {renderedItems.map((it) => (
-                  <details key={it.title} className="fold-item rounded-xl border border-[var(--line)] bg-white/85 px-4 py-3">
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-lg font-medium">
+              <TimelineAccordionEnhancer />
+              <div className="mt-4 space-y-3" data-timeline-accordion>
+                {renderedItems.map((it, index) => (
+                  <details
+                    key={it.title}
+                    data-accordion-item
+                    open={index === 0}
+                    className="fold-item rounded-xl border border-[var(--line)] bg-white/85 px-4 py-3"
+                  >
+                    <summary className="fold-summary flex cursor-pointer list-none items-center justify-between gap-3 text-lg font-medium">
                       {it.title}
                       <span aria-hidden="true" className="fold-arrow text-xl leading-none">
                         ▾
                       </span>
                     </summary>
                     {it.content ? (
-                      <div className="fold-markdown mt-2">{it.content}</div>
+                      <div className="fold-content fold-markdown mt-2">{it.content}</div>
                     ) : (
-                      <p className="mt-2 text-sm muted">
+                      <p className="fold-content mt-2 text-sm muted">
                         {lang === "en" ? "No details yet. Add content in CMS under Timeline." : "暂无详细内容，可在 CMS 的 Timeline 中补充。"}
                       </p>
                     )}

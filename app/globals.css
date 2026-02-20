@@ -75,6 +75,30 @@ section[id] {
   transform: rotate(180deg);
 }
 
+.fold-item {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.fold-item:hover {
+  transform: translateY(-1px);
+}
+
+.fold-item[open] {
+  border-color: rgb(183 100 60 / 45%);
+  box-shadow: 0 10px 24px rgb(183 100 60 / 12%);
+}
+
+.fold-summary {
+  scroll-margin-top: 6.5rem;
+}
+
+.fold-content {
+  animation: fold-content-in 220ms ease;
+}
+
 .fold-markdown h1,
 .fold-markdown h2,
 .fold-markdown h3 {
@@ -435,6 +459,17 @@ section[id] {
   50% {
     opacity: 0.95;
     transform: scale(1.02);
+  }
+}
+
+@keyframes fold-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
