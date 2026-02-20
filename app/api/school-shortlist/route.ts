@@ -50,6 +50,80 @@ function normalizeDegree(value: string): DaadProgram["degree"] {
   return "MSc";
 }
 
+async function localizeItems(
+  items: ApiResult[],
+  lang: "zh" | "en",
+  apiKey: string,
+  model: string,
+): Promise<ApiResult[] | null> {
+  const rule =
+    lang === "zh"
+      ? "Convert every field to Simplified Chinese only. No English words, no bilingual parentheses, no mixed-language output."
+      : "Convert every field to English only. No Chinese words, no bilingual parentheses, no mixed-language output.";
+
+  const response = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      input: [
+        {
+          role: "system",
+          content: [
+            {
+              type: "input_text",
+              text:
+                "You are a strict localization formatter. Keep meaning unchanged and output strict JSON only: " +
+                '{"items":[{"id":"string","programName":"string","university":"string","city":"string","degree":"MSc|MA|MBA","reason":"string"}]}.',
+            },
+          ],
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text: `${rule}\nInput JSON:\n${JSON.stringify({ items }, null, 2)}`,
+            },
+          ],
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) return null;
+  const data = (await response.json()) as {
+    output_text?: string;
+    output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+  };
+  const raw =
+    data.output_text ??
+    data.output
+      ?.flatMap((item) => item.content ?? [])
+      .find((item) => item.type === "output_text")
+      ?.text;
+  if (!raw) return null;
+
+  const jsonText = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/, "");
+  try {
+    const parsed = JSON.parse(jsonText) as { items?: ApiResult[] };
+    if (!parsed.items || parsed.items.length === 0) return null;
+    return parsed.items.slice(0, 8).map((item, index) => ({
+      id: item.id?.trim() || `localized-${index + 1}`,
+      programName: String(item.programName ?? ""),
+      university: String(item.university ?? ""),
+      city: String(item.city ?? ""),
+      degree: normalizeDegree(String(item.degree ?? "MSc")),
+      reason: String(item.reason ?? ""),
+    }));
+  } catch {
+    return null;
+  }
+}
+
 async function recommendFromDaadWeb(
   answers: ShortlistAnswers,
   lang: "zh" | "en",
@@ -66,7 +140,8 @@ async function recommendFromDaadWeb(
     '{"items":[{"id":"string","programName":"string","university":"string","city":"string","degree":"MSc|MA|MBA","reason":"string","sourceUrl":"https://..."}]}.' +
     " Exactly 8 items." +
     " The reason must be detailed: for Chinese output, each reason must be at least 100 Chinese characters; for English output, each reason must be at least 80 words." +
-    " Do not mention DAAD, source pages, links, or where the data came from in the reason text.";
+    " Do not mention DAAD, source pages, links, or where the data came from in the reason text." +
+    " If lang is zh, all returned text fields must be Simplified Chinese only. If lang is en, all returned text fields must be English only.";
   const user = JSON.stringify({ lang, answers }, null, 2);
 
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -164,7 +239,12 @@ async function recommendFromDaadWeb(
     throw new RecommendationError("No DAAD-domain recommendations after filtering", 502);
   }
 
-  return filtered;
+  const localized = await localizeItems(filtered, lang, apiKey, model);
+  const finalItems = localized ?? filtered;
+  return finalItems.map((item) => ({
+    ...item,
+    reason: ensureReasonLength(item.reason, lang),
+  }));
 }
 
 export async function POST(req: Request) {

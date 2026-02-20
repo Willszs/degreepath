@@ -77,6 +77,12 @@ function directionKeyword(value: string): string {
   return map[value] ?? value;
 }
 
+function degreeLabel(degree: string, lang: Lang): string {
+  if (lang === "en") return degree;
+  if (degree === "MBA") return "工商管理硕士";
+  return "硕士";
+}
+
 export default function SchoolShortlistTool({ lang }: Props) {
   const [currentSection, setCurrentSection] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
@@ -333,7 +339,7 @@ export default function SchoolShortlistTool({ lang }: Props) {
                     {idx + 1}. {row.programName}
                   </div>
                   <div className="text-xs muted">
-                    {row.university} · {row.city} · {row.degree}
+                    {row.university} · {row.city} · {degreeLabel(row.degree, lang)}
                   </div>
                 </div>
                 <div className="mt-3 text-sm muted">
