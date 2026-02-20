@@ -104,7 +104,7 @@ export default function SchoolShortlistTool({ lang }: Props) {
           prev: "Previous",
           next: "Next",
           run: "Generate 8 Schools",
-          analyzing: "Selecting the school suits you...",
+          analyzing: "Selecting the school and program that suits you...",
           reset: "Reset",
           reason: "Reason",
           disclaimer: "These recommendations are for reference only. Contact us for detailed planning.",
